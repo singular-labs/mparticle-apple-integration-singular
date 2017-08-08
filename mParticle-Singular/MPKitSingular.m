@@ -1,34 +1,12 @@
 //
 //  MPKitSingular.m
 //
-//  Copyright 2016 mParticle, Inc.
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
-//
 
 #import "MPKitSingular.h"
 #import "Singular.h"
 
-/* Import your header file here
- */
-//#if defined(__has_include) && __has_include(<CompanyName/CompanyName.h>)
-//#import <CompanyName/CompanyName.h>
-//#else
-//#import "CompanyName.h"
-//#endif
-
 // This is temporary to allow compilation (will be provided by core SDK)
-NSUInteger MPKitInstanceCompanyName = 119;
+NSUInteger MPKitInstanceSingularTemp = 119;
 
 @implementation MPKitSingular
 
@@ -122,44 +100,14 @@ int ddlTimeout = 60;
  Implement this method if your SDK retrieves deep-linking information from a remote server and returns it to the host app
  */
 - (MPKitExecStatus *)checkForDeferredDeepLinkWithCompletionHandler:(void(^)(NSDictionary *linkInfo, NSError *error))completionHandler {
-    /*  Your code goes here.
-     If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-     Please see MPKitExecStatus.h for all exec status codes
-     */
     [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
         NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,@"deepLink", nil];
         completionHandler(ddlLink,nil);
     }];
     
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
-
-/*
- Implement this method if your SDK handles a user interacting with a remote notification action
- */
-// - (MPKitExecStatus *)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK receives and handles remote notifications
- */
-// - (MPKitExecStatus *)receivedUserNotification:(NSDictionary *)userInfo {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
 
 /*
  Implement this method if your SDK registers the device token for remote notifications
@@ -171,102 +119,9 @@ int ddlTimeout = 60;
      */
     [Singular registerDeviceTokenForUninstall:deviceToken];
     
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
-
-/*
- Implement this method if your SDK handles continueUserActivity method from the App Delegate
- */
-// - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK handles the iOS 9 and above App Delegate method to open URL with options
- */
-// - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK handles the iOS 8 and below App Delegate method open URL
- */
-// - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-#pragma mark User attributes and identities
-/*
- Implement this method if your SDK sets user attributes. The core mParticle SDK also sets the userAttributes property.
- */
-// - (MPKitExecStatus *)setUserAttribute:(NSString *)key value:(NSString *)value {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK allows for incrementing numeric user attributes.
- */
-// - (MPKitExecStatus *)incrementUserAttribute:(NSString *)key byValue:(NSNumber *)value {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK resets user attributes.
- */
-// - (MPKitExecStatus *)removeUserAttribute:(NSString *)key {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-/*
- Implement this method if your SDK sets user identities.
- */
-// - (MPKitExecStatus *)setUserIdentity:(NSString *)identityString identityType:(MPUserIdentity)identityType {
-//     /*  Your code goes here.
-//         If the execution is not successful, or the identity type is not supported, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//         Please see MPEnums.h > MPUserIdentity for all supported user identities
-//      */
-//
-//      MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
-//      return execStatus;
-// }
 
 #pragma mark e-Commerce
 /*
@@ -275,26 +130,66 @@ int ddlTimeout = 60;
  expand the received commerce event into regular events and log them accordingly (see sample code below)
  Please see MPCommerceEvent.h > MPCommerceEventAction for complete list
  */
-// - (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess forwardCount:0];
-//
-//     // In this example, this SDK only supports the 'Purchase' commerce event action
-//     if (commerceEvent.action == MPCommerceEventActionPurchase) {
-//             /* Your code goes here. */
-//
-//             [execStatus incrementForwardCount];
-//         }
-//     } else { // Other commerce events are expanded and logged as regular events
-//         NSArray *expandedInstructions = [commerceEvent expandedInstructions];
-//
-//         for (MPCommerceEventInstruction *commerceEventInstruction in expandedInstructions) {
-//             [self logEvent:commerceEventInstruction.event];
-//             [execStatus incrementForwardCount];
-//         }
-//     }
-//
-//     return execStatus;
-// }
+ - (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
+     MPCommerceEventAction action = commerceEvent.action;
+     MPKitExecStatus *execStatus;
+     if (action == MPCommerceEventActionPurchase){
+         NSString *currency = nil;
+         NSNumber *amount = nil;
+         NSString *productSKU = nil;
+         NSString *productName = nil;
+         NSString *productCategory = nil;
+         NSNumber *productQuantity = nil;
+         NSNumber *productPrice = nil;
+         
+//         if (commerceEvent.currency) { //getting currency always nil with this
+         if ([commerceEvent.beautifiedAttributes valueForKey:@"Currency Code"]) {
+//             currency = commerceEvent.currency;
+             currency = [commerceEvent.beautifiedAttributes valueForKey:@"Currency Code"];
+         }
+         NSArray<MPProduct *> *products = commerceEvent.products;
+         
+         NSUInteger initialForwardCount = [products count] > 0 ? 0 : 1;
+         execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess forwardCount:initialForwardCount];
+
+         for (MPProduct *product in products) {
+             if (product.price) {
+                 productPrice = product.price;
+             }
+             
+             if (product.quantity) {
+                 productQuantity = product.quantity;
+             }
+             
+             if (product.sku) {
+                 productSKU = product.sku;
+             }
+             
+             if (product.category) {
+                 productCategory = product.category;
+             }
+             
+             if (product.name) {
+                 productName = product.name;
+             }
+             
+             if (product.totalAmount) {
+                 productQuantity = product.quantity;
+             }
+             
+             MPTransactionAttributes *transactionAttributes = commerceEvent.transactionAttributes;
+             if (transactionAttributes.revenue.intValue) {
+                 amount = transactionAttributes.revenue;
+             }
+             
+             [Singular revenue:currency amount:[amount doubleValue] productSKU:productSKU productName:productName productCategory:productCategory productQuantity:[productQuantity intValue] productPrice:[productPrice doubleValue]];
+             [execStatus incrementForwardCount];
+         }
+     }else{
+         execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeFail forwardCount:0];
+     }
+     return execStatus;
+ }
 
 #pragma mark Events
 /*
@@ -302,43 +197,8 @@ int ddlTimeout = 60;
  Please see MPEvent.h
  */
 - (MPKitExecStatus *)logEvent:(MPEvent *)event {
-    /*  Your code goes here.
-     If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-     Please see MPKitExecStatus.h for all exec status codes
-     */
-    
     [Singular event:event.name withArgs:event.info];
-    
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:MPKitReturnCodeSuccess];
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
-
-/*
- Implement this method if your SDK logs screen events
- Please see MPEvent.h
- */
-// - (MPKitExecStatus *)logScreen:(MPEvent *)event {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCrittercism) returnCode:MPKitReturnCodeSuccess];
-//     return execStatus;
-// }
-
-#pragma mark Assorted
-/*
- Implement this method if your SDK implements an opt out mechanism for users.
- */
-// - (MPKitExecStatus *)setOptOut:(BOOL)optOut {
-//     /*  Your code goes here.
-//         If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-//         Please see MPKitExecStatus.h for all exec status codes
-//      */
-//
-//     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceCompanyName) returnCode:returnCode];
-//     return execStatus;
-// }
-
 @end
