@@ -3,9 +3,7 @@ Pod::Spec.new do |s|
     s.version          = "6.11.0"
     s.summary          = "Singular integration for mParticle"
 
-    s.description      = <<-DESC
-                       This is the Singular integration for mParticle.
-                       DESC
+    s.description      = "Singular integration for mParticle"
 
     s.homepage         = "https://www.mparticle.com"
     s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
@@ -14,7 +12,15 @@ Pod::Spec.new do |s|
     s.social_media_url = "https://twitter.com/mparticles"
 
     s.ios.deployment_target = "8.0"
-    s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}'
+    s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}', 'SingularSDK/Singular.h'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.11.0'
-    #s.ios.dependency 'Singular', '9.9.9'
+    s.ios.vendored_library = 'SingularSDK/libSingular.a'
+    s.ios.pod_target_xcconfig = {
+    	'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/SingularSDK/**',
+        'OTHER_LDFLAGS' => '$(inherited) -l"Singular"'
+    }
 end
+
+
+
+

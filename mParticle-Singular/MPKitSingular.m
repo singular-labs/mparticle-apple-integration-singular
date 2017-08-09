@@ -13,6 +13,9 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define API_KEY @"apiKey"
 #define SECRET_KEY @"secret"
 #define DDL_TIMEOUT @"ddlTimeout"
+#define TOTAL_PRODUCT_AMOUNT @"Total Product Amount"
+
+
 
 NSString *appKey;
 NSString *secret;
@@ -35,7 +38,7 @@ int ddlTimeout = 60;
 #pragma mark Kit instance and lifecycle
 - (nonnull instancetype)initWithConfiguration:(nonnull NSDictionary *)configuration startImmediately:(BOOL)startImmediately {
     self = [super init];
-
+    
     if(configuration[API_KEY] != nil)
         appKey = configuration[API_KEY];
     if(configuration[SECRET_KEY] != nil)
@@ -130,66 +133,68 @@ int ddlTimeout = 60;
  expand the received commerce event into regular events and log them accordingly (see sample code below)
  Please see MPCommerceEvent.h > MPCommerceEventAction for complete list
  */
- - (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
-     MPCommerceEventAction action = commerceEvent.action;
-     MPKitExecStatus *execStatus;
-     if (action == MPCommerceEventActionPurchase){
-         NSString *currency = nil;
-         NSNumber *amount = nil;
-         NSString *productSKU = nil;
-         NSString *productName = nil;
-         NSString *productCategory = nil;
-         NSNumber *productQuantity = nil;
-         NSNumber *productPrice = nil;
-         
-//         if (commerceEvent.currency) { //getting currency always nil with this
-         if ([commerceEvent.beautifiedAttributes valueForKey:@"Currency Code"]) {
-//             currency = commerceEvent.currency;
-             currency = [commerceEvent.beautifiedAttributes valueForKey:@"Currency Code"];
-         }
-         NSArray<MPProduct *> *products = commerceEvent.products;
-         
-         NSUInteger initialForwardCount = [products count] > 0 ? 0 : 1;
-         execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess forwardCount:initialForwardCount];
-
-         for (MPProduct *product in products) {
-             if (product.price) {
-                 productPrice = product.price;
-             }
-             
-             if (product.quantity) {
-                 productQuantity = product.quantity;
-             }
-             
-             if (product.sku) {
-                 productSKU = product.sku;
-             }
-             
-             if (product.category) {
-                 productCategory = product.category;
-             }
-             
-             if (product.name) {
-                 productName = product.name;
-             }
-             
-             if (product.totalAmount) {
-                 productQuantity = product.quantity;
-             }
-             
-             MPTransactionAttributes *transactionAttributes = commerceEvent.transactionAttributes;
-             if (transactionAttributes.revenue.intValue) {
-                 amount = transactionAttributes.revenue;
-             }
-             
-             [Singular revenue:currency amount:[amount doubleValue] productSKU:productSKU productName:productName productCategory:productCategory productQuantity:[productQuantity intValue] productPrice:[productPrice doubleValue]];
-             [execStatus incrementForwardCount];
-         }
-     }else{
-         execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeFail forwardCount:0];
-     }
-     return execStatus;
- }
+- (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
+    
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceAppboy) returnCode:MPKitReturnCodeSuccess forwardCount:0];
+    
+    if (commerceEvent.action == MPCommerceEventActionPurchase){
+        NSMutableDictionary *baseProductAttributes = [[NSMutableDictionary alloc] init];
+        NSDictionary *transactionAttributes = [commerceEvent.transactionAttributes beautifiedDictionaryRepresentation];
+        
+        if (transactionAttributes) {
+            [baseProductAttributes addEntriesFromDictionary:transactionAttributes];
+        }
+        
+        NSDictionary *commerceEventAttributes = [commerceEvent beautifiedAttributes];
+        NSArray *keys = @[kMPExpCECheckoutOptions, kMPExpCECheckoutStep, kMPExpCEProductListName, kMPExpCEProductListSource];
+        
+        for (NSString *key in keys) {
+            if (commerceEventAttributes[key]) {
+                baseProductAttributes[key] = commerceEventAttributes[key];
+            }
+        }
+        
+        NSArray *products = commerceEvent.products;
+        NSString *currency = commerceEvent.currency ? : @"USD";
+        NSMutableDictionary *properties;
+        
+        for (MPProduct *product in products) {
+            // Add relevant attributes from the commerce event
+            properties = [[NSMutableDictionary alloc] init];
+            if (baseProductAttributes.count > 0) {
+                [properties addEntriesFromDictionary:baseProductAttributes];
+            }
+            
+            // Add attributes from the product itself
+            NSDictionary *productDictionary = [product beautifiedDictionaryRepresentation];
+            if (productDictionary) {
+                [properties addEntriesFromDictionary:productDictionary];
+            }
+            
+            // Strips key/values already being passed to Appboy, plus key/values initialized to default values
+            keys = @[kMPExpProductSKU, kMPProductCurrency, kMPExpProductUnitPrice, kMPExpProductQuantity, kMPProductAffiliation, kMPExpProductCategory, kMPExpProductName];
+            [properties removeObjectsForKeys:keys];
+            
+            //get the amount
+            NSNumber *totalProductAmount = nil;
+            if(properties != nil && [properties valueForKey:TOTAL_PRODUCT_AMOUNT]){
+                totalProductAmount = [properties valueForKey:TOTAL_PRODUCT_AMOUNT];
+            }
+            
+            [Singular revenue:currency amount:[totalProductAmount doubleValue] productSKU:product.sku productName:product.name productCategory:product.category productQuantity:[product.quantity intValue] productPrice:[product.price doubleValue]];
+            [execStatus incrementForwardCount];
+        }
+        
+    }else{
+        NSArray *expandedInstructions = [commerceEvent expandedInstructions];
+        
+        for (MPCommerceEventInstruction *commerceEventInstruction in expandedInstructions) {
+            [self logEvent:commerceEventInstruction.event];
+            [execStatus incrementForwardCount];
+        }
+    }
+    return execStatus;
+}
 
 #pragma mark Events
 /*
