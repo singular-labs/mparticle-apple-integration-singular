@@ -14,8 +14,9 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define SECRET_KEY @"secret"
 #define DDL_TIMEOUT @"ddlTimeout"
 #define TOTAL_PRODUCT_AMOUNT @"Total Product Amount"
-
-
+#define USER_GENDER_MALE @"m"
+#define USER_GENDER_FEMALE @"f"
+#define SINGULAR_DEEPLINK_KEY @"SingularDeepLink"
 
 NSString *appKey;
 NSString *secret;
@@ -99,12 +100,9 @@ int ddlTimeout = 60;
 
 
 #pragma mark Application
-/*
- Implement this method if your SDK retrieves deep-linking information from a remote server and returns it to the host app
- */
 - (MPKitExecStatus *)checkForDeferredDeepLinkWithCompletionHandler:(void(^)(NSDictionary *linkInfo, NSError *error))completionHandler {
     [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-        NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,@"deepLink", nil];
+        NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
         completionHandler(ddlLink,nil);
     }];
     
@@ -112,30 +110,37 @@ int ddlTimeout = 60;
     return execStatus;
 }
 
-/*
- Implement this method if your SDK registers the device token for remote notifications
- */
 - (MPKitExecStatus *)setDeviceToken:(NSData *)deviceToken {
-    /*  Your code goes here.
-     If the execution is not successful, please use a code other than MPKitReturnCodeSuccess for the execution status.
-     Please see MPKitExecStatus.h for all exec status codes
-     */
     [Singular registerDeviceTokenForUninstall:deviceToken];
     
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
+- (MPKitExecStatus *)setUserAttribute:(NSString *)key value:(NSString *)value {
+    MPKitExecStatus *execStatus;
+    if ([key isEqualToString:mParticleUserAttributeAge]) {
+        NSInteger age = 0;
+        @try {
+            age = [value integerValue];
+        } @catch (NSException *exception) {
+            NSLog(@"mParticle -> Invalid age: %@", value);
+            execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeFail];
+            return execStatus;
+        }
+        [Singular setAge:[NSString stringWithFormat:@"%ld",(long)age]];
+    }else if ([key isEqualToString:mParticleUserAttributeGender]) {
+        [Singular setGender:mParticleGenderMale ? USER_GENDER_MALE : USER_GENDER_FEMALE];
+    }
+    
+    execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
+}
+
 #pragma mark e-Commerce
-/*
- Implement this method if your SDK supports commerce events.
- If your SDK does support commerce event, but does not support all commerce event actions available in the mParticle SDK,
- expand the received commerce event into regular events and log them accordingly (see sample code below)
- Please see MPCommerceEvent.h > MPCommerceEventAction for complete list
- */
 - (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
     
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceAppboy) returnCode:MPKitReturnCodeSuccess forwardCount:0];
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess forwardCount:0];
     
     if (commerceEvent.action == MPCommerceEventActionPurchase){
         NSMutableDictionary *baseProductAttributes = [[NSMutableDictionary alloc] init];
@@ -184,7 +189,6 @@ int ddlTimeout = 60;
             [Singular revenue:currency amount:[totalProductAmount doubleValue] productSKU:product.sku productName:product.name productCategory:product.category productQuantity:[product.quantity intValue] productPrice:[product.price doubleValue]];
             [execStatus incrementForwardCount];
         }
-        
     }else{
         NSArray *expandedInstructions = [commerceEvent expandedInstructions];
         
@@ -197,13 +201,20 @@ int ddlTimeout = 60;
 }
 
 #pragma mark Events
-/*
- Implement this method if your SDK logs user events.
- Please see MPEvent.h
- */
 - (MPKitExecStatus *)logEvent:(MPEvent *)event {
     [Singular event:event.name withArgs:event.info];
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
+
+- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
+    
+    if(url){
+        [Singular startSession:appKey withKey:secret andLaunchURL:url];
+    }
+    
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceBranchMetrics) returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
+}
+
 @end
