@@ -117,6 +117,20 @@ int ddlTimeout = 60;
     return execStatus;
 }
 
+/*
+ Implement this method if your SDK handles continueUserActivity method from the App Delegate
+ */
+- (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
+    
+    if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
+        NSURL *url = userActivity.webpageURL;
+        [Singular startSession:appKey withKey:secret andLaunchURL:url];
+    }
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
+}
+
+
 - (MPKitExecStatus *)setUserAttribute:(NSString *)key value:(NSString *)value {
     MPKitExecStatus *execStatus;
     if ([key isEqualToString:mParticleUserAttributeAge]) {
@@ -208,12 +222,18 @@ int ddlTimeout = 60;
 }
 
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
-    
     if(url){
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
     }
-    
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceBranchMetrics) returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
+}
+
+- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
+    if(url){
+        [Singular startSession:appKey withKey:secret andLaunchURL:url];
+    }
+    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
