@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
     s.version          = "6.15.0"
     s.summary          = "Singular integration for mParticle"
 
-    s.description      = "Singular integration for mParticle"
+    s.description      = "This is the Singular integration for mParticle"
 
     s.homepage         = "https://www.mparticle.com"
     s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
@@ -15,12 +15,10 @@ Pod::Spec.new do |s|
     s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}', 'SingularSDK/Singular.h'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.15.0'
     s.ios.vendored_library = 'SingularSDK/libSingular.a'
+    s.ios.libraries = ['sqlite3', 'z']
+    s.ios.frameworks = 'SystemConfiguration'
     s.ios.pod_target_xcconfig = {
-    	'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/SingularSDK/**',
+        'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/mParticle-Singular/SingularSDK/**',
         'OTHER_LDFLAGS' => '$(inherited) -l"Singular"'
     }
 end
-
-
-
-
