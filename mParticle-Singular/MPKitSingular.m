@@ -8,6 +8,13 @@
 // This is temporary to allow compilation (will be provided by core SDK)
 NSUInteger MPKitInstanceSingularTemp = 119;
 
+@interface MPKitSingular() {
+    NSDictionary *ddlLink;
+    void (^completionHandlerCopy)(NSDictionary *, NSError *);
+}
+
+@end
+
 @implementation MPKitSingular
 
 #define API_KEY @"apiKey"
@@ -68,6 +75,14 @@ int ddlTimeout = 60;
         /*
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
+        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
+            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
+        }];
+        
         [Singular startSession:appKey withKey:secret];
         _started = YES;
         
@@ -85,7 +100,6 @@ int ddlTimeout = 60;
     if (![self started]) {
         return nil;
     }
-    
     /*
      If your company SDK instance is available and is applicable (Please return nil if your SDK is based on class methods)
      */
@@ -98,21 +112,20 @@ int ddlTimeout = 60;
     }
 }
 
-
 #pragma mark Application
 - (MPKitExecStatus *)checkForDeferredDeepLinkWithCompletionHandler:(void(^)(NSDictionary *linkInfo, NSError *error))completionHandler {
-    [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-        NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+    if (_started && (ddlLink)){
         completionHandler(ddlLink,nil);
-    }];
-    
+        ddlLink = nil;
+    }else {
+        completionHandlerCopy = [completionHandler copy];
+    }
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (MPKitExecStatus *)setDeviceToken:(NSData *)deviceToken {
     [Singular registerDeviceTokenForUninstall:deviceToken];
-    
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
@@ -123,6 +136,14 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
     if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
+        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
+            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
+        }];
+        
         NSURL *url = userActivity.webpageURL;
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
     }
@@ -146,7 +167,6 @@ int ddlTimeout = 60;
     }else if ([key isEqualToString:mParticleUserAttributeGender]) {
         [Singular setGender:mParticleGenderMale ? USER_GENDER_MALE : USER_GENDER_FEMALE];
     }
-    
     execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
@@ -216,13 +236,25 @@ int ddlTimeout = 60;
 
 #pragma mark Events
 - (MPKitExecStatus *)logEvent:(MPEvent *)event {
-    [Singular event:event.name withArgs:event.info];
+    if (event.info.count > 0) {
+        [Singular event:event.name withArgs:event.info];
+    } else {
+        [Singular event:event.name];
+    }
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
 }
 
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
     if(url){
+        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
+            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
+        }];
+        
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
     }
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceBranchMetrics) returnCode:MPKitReturnCodeSuccess];
@@ -231,6 +263,14 @@ int ddlTimeout = 60;
 
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
     if(url){
+        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
+            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
+        }];
+        
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
     }
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
