@@ -10,6 +10,7 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 
 @interface MPKitSingular() {
     NSDictionary *ddlLink;
+    void (^completionHandlerCopy)(NSDictionary *, NSError *);
 }
 
 @end
@@ -74,9 +75,12 @@ int ddlTimeout = 60;
         /*
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
-        ddlLink = nil;
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
         }];
         
         [Singular startSession:appKey withKey:secret];
@@ -113,6 +117,8 @@ int ddlTimeout = 60;
     if (_started && (ddlLink)){
         completionHandler(ddlLink,nil);
         ddlLink = nil;
+    }else {
+        completionHandlerCopy = [completionHandler copy];
     }
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
     return execStatus;
@@ -130,9 +136,12 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
     if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
-        ddlLink = nil;
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
         }];
         
         NSURL *url = userActivity.webpageURL;
@@ -238,9 +247,12 @@ int ddlTimeout = 60;
 
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
     if(url){
-        ddlLink = nil;
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
@@ -251,9 +263,12 @@ int ddlTimeout = 60;
 
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
     if(url){
-        ddlLink = nil;
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            if (completionHandlerCopy) {
+                completionHandlerCopy(ddlLink,nil);
+                ddlLink = nil;
+            }
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
