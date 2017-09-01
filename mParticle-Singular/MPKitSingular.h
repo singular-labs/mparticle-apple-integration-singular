@@ -8,6 +8,8 @@
 #import "mParticle.h"
 #endif
 
+#define SINGULAR_DEEPLINK_KEY @"SingularDeepLink"
+
 @interface MPKitSingular : NSObject <MPKitProtocol>
 
 @property (nonatomic, strong, nonnull) NSDictionary *configuration;
