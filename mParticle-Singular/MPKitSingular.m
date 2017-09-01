@@ -23,7 +23,6 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define TOTAL_PRODUCT_AMOUNT @"Total Product Amount"
 #define USER_GENDER_MALE @"m"
 #define USER_GENDER_FEMALE @"f"
-#define SINGULAR_DEEPLINK_KEY @"SingularDeepLink"
 
 NSString *appKey;
 NSString *secret;
