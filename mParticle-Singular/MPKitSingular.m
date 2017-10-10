@@ -8,14 +8,9 @@
 // This is temporary to allow compilation (will be provided by core SDK)
 NSUInteger MPKitInstanceSingularTemp = 119;
 
-@interface MPKitSingular() {
-    NSDictionary *ddlLink;
-    void (^completionHandlerCopy)(NSDictionary *, NSError *);
-}
-
-@end
-
 @implementation MPKitSingular
+
+@synthesize kitApi = _kitApi;
 
 #define API_KEY @"apiKey"
 #define SECRET_KEY @"secret"
@@ -75,11 +70,8 @@ int ddlTimeout = 60;
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            if (completionHandlerCopy) {
-                completionHandlerCopy(ddlLink,nil);
-                ddlLink = nil;
-            }
+            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret];
@@ -112,17 +104,6 @@ int ddlTimeout = 60;
 }
 
 #pragma mark Application
-- (MPKitExecStatus *)checkForDeferredDeepLinkWithCompletionHandler:(void(^)(NSDictionary *linkInfo, NSError *error))completionHandler {
-    if (_started && (ddlLink)){
-        completionHandler(ddlLink,nil);
-        ddlLink = nil;
-    }else {
-        completionHandlerCopy = [completionHandler copy];
-    }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
-}
-
 - (MPKitExecStatus *)setDeviceToken:(NSData *)deviceToken {
     [Singular registerDeviceTokenForUninstall:deviceToken];
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
@@ -136,11 +117,8 @@ int ddlTimeout = 60;
     
     if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            if (completionHandlerCopy) {
-                completionHandlerCopy(ddlLink,nil);
-                ddlLink = nil;
-            }
+            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
         }];
         
         NSURL *url = userActivity.webpageURL;
@@ -247,11 +225,8 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            if (completionHandlerCopy) {
-                completionHandlerCopy(ddlLink,nil);
-                ddlLink = nil;
-            }
+            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
@@ -263,11 +238,8 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            if (completionHandlerCopy) {
-                completionHandlerCopy(ddlLink,nil);
-                ddlLink = nil;
-            }
+            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
