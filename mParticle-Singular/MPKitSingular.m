@@ -36,15 +36,15 @@ int ddlTimeout = 60;
 }
 
 + (void)load {
-    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Singular" className:@"MPKitSingular" startImmediately:YES];
+    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Singular" className:@"MPKitSingular"];
     [MParticle registerExtension:kitRegister];
 }
 
 #pragma mark - MPKitInstanceProtocol methods
 
 #pragma mark Kit instance and lifecycle
-- (nonnull instancetype)initWithConfiguration:(nonnull NSDictionary *)configuration startImmediately:(BOOL)startImmediately {
-    self = [super init];
+- (MPKitExecStatus *)didFinishLaunchingWithConfiguration:(NSDictionary *)configuration {
+    MPKitExecStatus *execStatus = nil;
     
     if(configuration[API_KEY] != nil)
         appKey = configuration[API_KEY];
@@ -55,17 +55,17 @@ int ddlTimeout = 60;
         [Singular setDeferredDeepLinkTimeout:ddlTimeout];
     }
     
-    if (!self || !appKey) {
-        return nil;
+    if (!appKey) {
+        execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeRequirementsNotMet];
+        return execStatus;
     }
     
     _configuration = configuration;
     
-    if (startImmediately) {
-        [self start];
-    }
+    [self start];
     
-    return self;
+    execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeSuccess];
+    return execStatus;
 }
 
 - (void)start{
