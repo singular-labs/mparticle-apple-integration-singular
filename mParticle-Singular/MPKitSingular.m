@@ -71,7 +71,11 @@ int ddlTimeout = 60;
          */
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
+
+            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+            attributionResult.linkInfo = ddlLink;
+
+            [_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret];
@@ -118,7 +122,11 @@ int ddlTimeout = 60;
     if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
+
+            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+            attributionResult.linkInfo = ddlLink;
+
+            [_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
         NSURL *url = userActivity.webpageURL;
@@ -226,7 +234,11 @@ int ddlTimeout = 60;
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
+
+            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+            attributionResult.linkInfo = ddlLink;
+
+            [_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
@@ -239,7 +251,12 @@ int ddlTimeout = 60;
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            [_kitApi onDeeplinkCompleteWithInfo:ddlLink error:nil];
+
+
+            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+            attributionResult.linkInfo = ddlLink;
+
+            [_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
         [Singular startSession:appKey withKey:secret andLaunchURL:url];
