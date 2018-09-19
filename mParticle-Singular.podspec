@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Singular"
-    s.version          = "7.5.7"
+    s.version          = "7.6.0"
     s.summary          = "Singular integration for mParticle"
 
     s.description      = "This is the Singular integration for mParticle"
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
     s.ios.deployment_target = "8.0"
     s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}', 'SingularSDK/Singular.h'
-    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 7.5.0'
+    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 7.6.0'
     s.ios.vendored_library = 'SingularSDK/libSingular.a'
     s.ios.libraries = ['sqlite3', 'z']
     s.ios.frameworks = 'SystemConfiguration'
