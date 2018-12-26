@@ -29,7 +29,21 @@ var Singular={
     ,sessionStarted:false
     /* Methods */
     ,event:function(name, withArgs) {
+        // convert from JSON string (to maintain consistency with the Android SDK)
+        if (typeof withArgs == "string") {
+            withArgs = JSON.parse(withArgs);
+        }
+
         Singular.int_call('event', name, withArgs);
+    }
+    ,revenue:function(currency, amount) {
+        Singular.int_call('revenue', currency, amount);
+    }
+    ,setCustomUserId:function(customUserId) {
+        Singular.int_call('setCustomUserId', customUserId);
+    }
+    ,unsetCustomUserId:function() {
+        Singular.int_call('unsetCustomUserId');
     }
     /* registerCallback:  Register a callback function.
      * @param  signature  The signature takes the format of:
@@ -70,7 +84,7 @@ var Singular={
     }
     ,int_call:function() {
         var arg, uargs=[], aargs=['_rand_='+parseInt(Math.random()*100)],
-        url='apsalar://';
+        url='singular://';
         for (var i=0, val;(val = arguments[i]);i++) {
             if (typeof val == 'object') {
                 for (o in val) {

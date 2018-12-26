@@ -7,9 +7,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 
 @interface Singular : NSObject
+
 + (void)startSession:(NSString *)apiKey withKey:(NSString *)apiSecret ;
 + (void)startSession:(NSString *)apiKey withKey:(NSString *)apiSecret andLaunchOptions:(NSDictionary *)launchOptions;
 + (void)startSession:(NSString *)apiKey withKey:(NSString *)apiSecret andLaunchURL:(NSURL *)url;
@@ -37,10 +39,12 @@
 @property(strong, nonatomic, readonly) NSString *applicationName;
 @property(strong, nonatomic, readonly) NSString *applicationIdentifier;
 + (BOOL) processJSRequest:(UIWebView *)webView withURL:(NSURLRequest *)url;
++ (BOOL) processJSRequestWK:(WKWebView *)webView withURL:(NSURLRequest *)url;
 @property(nonatomic) int minSessionDuration;  // Default: 5
 + (void) setMinSessionDuration:(int)seconds;
 
 // IAP
++ (void)initializeApStore;
 + (void)setAllowAutoIAPComplete:(BOOL)boolean;
 + (void)iapComplete:(id)transaction;
 + (void)iapComplete:(id)transaction withAttributes:(id)value, ...;
@@ -61,5 +65,17 @@
 + (void)revenue:(NSString *)currency amount:(double)amount productSKU:(NSString *)productSKU productName:(NSString *)productName productCategory:(NSString *)productCategory productQuantity:(int)productQuantity productPrice:(double)productPrice;
 + (void)revenue:(NSString *)currency amount:(double)amount;
 
++ (void)setCustomUserId:(NSString*)customUserId;
++ (void)unsetCustomUserId;
+
++ (void)setSessionTimeout:(int)timeout;
+
+/* GDPR helpers */
+
++ (void)trackingOptIn;
++ (void)trackingUnder13;
++ (void)stopAllTracking;
++ (void)resumeAllTracking;
++ (BOOL)isAllTrackingStopped;
 
 @end
