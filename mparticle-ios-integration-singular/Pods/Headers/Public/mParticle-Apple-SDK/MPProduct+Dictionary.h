@@ -1,0 +1,1 @@
+../../../mParticle-Apple-SDK/mParticle-Apple-SDK/Ecommerce/MPProduct+Dictionary.h

@@ -1,0 +1,18 @@
+PODS:
+  - mParticle-Apple-SDK (7.8.3):
+    - mParticle-Apple-SDK/mParticle (= 7.8.3)
+  - mParticle-Apple-SDK/mParticle (7.8.3)
+
+DEPENDENCIES:
+  - mParticle-Apple-SDK (~> 7)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - mParticle-Apple-SDK
+
+SPEC CHECKSUMS:
+  mParticle-Apple-SDK: 5218327d8e893cde4627435bcca129924f5c136c
+
+PODFILE CHECKSUM: a48c846e4cc816f8cd6a7c4e0ee41c2afff63293
+
+COCOAPODS: 1.5.3
