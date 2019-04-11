@@ -1,7 +1,3 @@
-//
-//  MPKitSingular.m
-//
-
 #import "MPKitSingular.h"
 #import "Singular.h"
 
