@@ -67,10 +67,10 @@ int ddlTimeout = 60;
          */
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-
+            
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
             attributionResult.linkInfo = ddlLink;
-
+            
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
@@ -118,10 +118,10 @@ int ddlTimeout = 60;
     if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-
+            
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
             attributionResult.linkInfo = ddlLink;
-
+            
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
@@ -230,10 +230,10 @@ int ddlTimeout = 60;
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-
+            
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
             attributionResult.linkInfo = ddlLink;
-
+            
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
@@ -247,11 +247,11 @@ int ddlTimeout = 60;
     if(url){
         [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
             NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-
-
+            
+            
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
             attributionResult.linkInfo = ddlLink;
-
+            
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
