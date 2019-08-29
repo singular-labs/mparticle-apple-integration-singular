@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "mParticle-Singular"
-    s.version          = "7.10.4"
+    s.version          = "7.10.5"
     s.summary          = "Singular integration for mParticle"
 
     s.description      = "This is the Singular integration for mParticle"
