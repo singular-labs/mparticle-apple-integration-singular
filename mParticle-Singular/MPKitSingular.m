@@ -1,5 +1,5 @@
 #import "MPKitSingular.h"
-#import "Singular.h"
+#import <Singular/Singular.h>
 
 // This is temporary to allow compilation (will be provided by core SDK)
 NSUInteger MPKitInstanceSingularTemp = 119;

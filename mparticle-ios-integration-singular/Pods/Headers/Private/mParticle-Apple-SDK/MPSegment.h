@@ -1,1 +1,0 @@
-../../../mParticle-Apple-SDK/mParticle-Apple-SDK/Data Model/MPSegment.h

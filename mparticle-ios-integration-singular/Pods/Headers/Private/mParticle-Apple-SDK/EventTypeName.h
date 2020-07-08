@@ -1,1 +1,0 @@
-../../../mParticle-Apple-SDK/mParticle-Apple-SDK/Event/EventTypeName.h

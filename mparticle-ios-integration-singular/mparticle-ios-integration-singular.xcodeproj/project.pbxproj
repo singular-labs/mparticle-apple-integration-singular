@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,8 +15,6 @@
 		2116BD1A21D3745100DFE453 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD1121D3745100DFE453 /* LICENSE */; };
 		2116BD4121D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */; };
 		2116BD4321D3C2F600DFE453 /* mparticle_ios_integration_singular.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */; };
-		2120485E21DA4184007C2128 /* libSingular.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2120485B21DA413D007C2128 /* libSingular.a */; };
-		2120486021DA419F007C2128 /* Singular.h in Headers */ = {isa = PBXBuildFile; fileRef = 2120485F21DA419F007C2128 /* Singular.h */; };
 		21D1D2EF21D28648007D715E /* mparticle_ios_integration_singular.h in Headers */ = {isa = PBXBuildFile; fileRef = 21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B910BAF6D3779CF1012DE733 /* libPods-mparticle-ios-integration-singular.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 958207AF41BE1D1BB347B893 /* libPods-mparticle-ios-integration-singular.a */; };
 /* End PBXBuildFile section */
@@ -29,20 +27,6 @@
 			remoteGlobalIDString = 21D1D2E921D28648007D715E;
 			remoteInfo = "mparticle-ios-integration-singular";
 		};
-		2120485A21DA413D007C2128 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2116BD2D21D3803D00DFE453 /* Singular.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = Singular;
-		};
-		2120485C21DA413D007C2128 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2116BD2D21D3803D00DFE453 /* Singular.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9B99F8571A409CF70025B30C;
-			remoteInfo = SingularTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +35,9 @@
 		2116BD0F21D3745100DFE453 /* MPKitSingular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPKitSingular.m; sourceTree = "<group>"; };
 		2116BD1021D3745100DFE453 /* MPKitSingular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPKitSingular.h; sourceTree = "<group>"; };
 		2116BD1121D3745100DFE453 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		2116BD2D21D3803D00DFE453 /* Singular.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Singular.xcodeproj; path = "../../../ios-sdk/iOS2/Singular/sdk/Singular.xcodeproj"; sourceTree = "<group>"; };
 		2116BD3E21D3C2F600DFE453 /* mparticle_ios_integration_singularTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mparticle_ios_integration_singularTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mparticle_ios_integration_singularTests.m; sourceTree = "<group>"; };
 		2116BD4221D3C2F600DFE453 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2120485F21DA419F007C2128 /* Singular.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Singular.h; path = ../SingularSDK/Singular.h; sourceTree = "<group>"; };
 		21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mparticle_ios_integration_singular.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mparticle_ios_integration_singular.h; sourceTree = "<group>"; };
 		21D1D2EE21D28648007D715E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,7 +64,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2120485E21DA4184007C2128 /* libSingular.a in Frameworks */,
 				B910BAF6D3779CF1012DE733 /* libPods-mparticle-ios-integration-singular.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -93,8 +74,8 @@
 		2116BD0E21D3745100DFE453 /* mParticle-Singular */ = {
 			isa = PBXGroup;
 			children = (
-				2116BD0F21D3745100DFE453 /* MPKitSingular.m */,
 				2116BD1021D3745100DFE453 /* MPKitSingular.h */,
+				2116BD0F21D3745100DFE453 /* MPKitSingular.m */,
 			);
 			name = "mParticle-Singular";
 			path = "../mParticle-Singular";
@@ -109,20 +90,9 @@
 			path = mparticle_ios_integration_singularTests;
 			sourceTree = "<group>";
 		};
-		2120485521DA413D007C2128 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2120485B21DA413D007C2128 /* libSingular.a */,
-				2120485D21DA413D007C2128 /* SingularTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		21D1D2E021D28648007D715E = {
 			isa = PBXGroup;
 			children = (
-				2120485F21DA419F007C2128 /* Singular.h */,
-				2116BD2D21D3803D00DFE453 /* Singular.xcodeproj */,
 				2116BD1121D3745100DFE453 /* LICENSE */,
 				2116BD0E21D3745100DFE453 /* mParticle-Singular */,
 				2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */,
@@ -182,7 +152,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				21D1D2EF21D28648007D715E /* mparticle_ios_integration_singular.h in Headers */,
-				2120486021DA419F007C2128 /* Singular.h in Headers */,
 				2116BD1921D3745100DFE453 /* MPKitSingular.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +167,7 @@
 				2116BD3A21D3C2F600DFE453 /* Sources */,
 				2116BD3B21D3C2F600DFE453 /* Frameworks */,
 				2116BD3C21D3C2F600DFE453 /* Resources */,
+				AE348DA159EE124B2B1482AF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -218,6 +188,7 @@
 				21D1D2E621D28648007D715E /* Sources */,
 				21D1D2E721D28648007D715E /* Frameworks */,
 				21D1D2E821D28648007D715E /* Resources */,
+				2D55CBB8318FBF31C4ACC418 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -255,12 +226,6 @@
 			mainGroup = 21D1D2E021D28648007D715E;
 			productRefGroup = 21D1D2EB21D28648007D715E /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 2120485521DA413D007C2128 /* Products */;
-					ProjectRef = 2116BD2D21D3803D00DFE453 /* Singular.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				21D1D2E921D28648007D715E /* mparticle-ios-integration-singular */,
@@ -268,23 +233,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		2120485B21DA413D007C2128 /* libSingular.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSingular.a;
-			remoteRef = 2120485A21DA413D007C2128 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2120485D21DA413D007C2128 /* SingularTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SingularTests.xctest;
-			remoteRef = 2120485C21DA413D007C2128 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2116BD3C21D3C2F600DFE453 /* Resources */ = {
@@ -329,6 +277,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		2D55CBB8318FBF31C4ACC418 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9FE746990B13B782AA7FE402 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -349,6 +314,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE348DA159EE124B2B1482AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
