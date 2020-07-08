@@ -1,5 +1,6 @@
 #import "MPKitSingular.h"
 #import <Singular/Singular.h>
+#import <Singular/SingularConfig.h>
 
 // This is temporary to allow compilation (will be provided by core SDK)
 NSUInteger MPKitInstanceSingularTemp = 119;
@@ -18,7 +19,7 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define KIT_CLASS_NAME @"MPKitSingular"
 #define DEFAULT_CURRENCY @"USD"
 
-NSString *appKey;
+NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
 
@@ -45,10 +46,10 @@ int ddlTimeout = 60;
     [self extractDataFromConfiguration:configuration];
     
     // If the app key wasn't initialized, error code must be returned to alert mParticle
-    if (!appKey) {
+    if (!apiKey) {
         return [[MPKitExecStatus alloc]
                 initWithSDKCode:[[self class] kitCode]
-                returnCode:MPKitReturnCodeRequirementsNotMet];;
+                returnCode:MPKitReturnCodeRequirementsNotMet];
     }
 
     _configuration = configuration;
@@ -62,7 +63,7 @@ int ddlTimeout = 60;
 
 - (void)extractDataFromConfiguration:(NSDictionary * _Nonnull)configuration {
     if(configuration[API_KEY] != nil){
-        appKey = configuration[API_KEY];
+        apiKey = configuration[API_KEY];
     }
 
     if(configuration[SECRET_KEY] != nil){
@@ -81,16 +82,19 @@ int ddlTimeout = 60;
         /*
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+        [Singular startSession:apiKey withKey:secret andLaunchOptions:self.launchOptions withSingularLinkHandler:^(SingularLinkParams * params) {
+            NSDictionary *linkInfo = [[NSDictionary alloc]
+                                     initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
+                                     [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
+                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                     nil];
 
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
+            attributionResult.linkInfo = linkInfo;
 
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         }];
         
-        [Singular startSession:appKey withKey:secret];
         self->_started = YES;
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -135,20 +139,18 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity
                                restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
-    // In case the user entered the app using a DDL, registering it and starting a session
-    if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+    [Singular startSession:apiKey withKey:secret andUserActivity:userActivity withSingularLinkHandler:^(SingularLinkParams * params) {
+        NSDictionary *linkInfo = [[NSDictionary alloc]
+                                 initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
+                                 [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
+                                 [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                 nil];
 
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
+        MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+        attributionResult.linkInfo = linkInfo;
 
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
-        
-        NSURL *url = userActivity.webpageURL;
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
-    }
+        [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
+    }];
 
     // Returning success to the mParticle Kit
     return [self execSuccess];
@@ -183,7 +185,7 @@ int ddlTimeout = 60;
 /*
  This method is called when the user has purchased something
  */
-- (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
+- (MPKitExecStatus *)signularCommerceEvent:(MPCommerceEvent *)commerceEvent {
     
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc]
                                    initWithSDKCode:@(MPKitInstanceSingularTemp)
@@ -203,7 +205,7 @@ int ddlTimeout = 60;
           execStatus:(MPKitExecStatus *)execStatus {
 
     for (MPCommerceEventInstruction *commerceEventInstruction in [commerceEvent expandedInstructions]) {
-        [self logEvent:commerceEventInstruction.event];
+        [self logBaseEvent:commerceEventInstruction.event];
         [execStatus incrementForwardCount];
     }
 }
@@ -292,9 +294,22 @@ int ddlTimeout = 60;
 /*
  This method is called when an event is fired
  */
-- (MPKitExecStatus *)logEvent:(MPEvent *)event {
-    if (event.info.count > 0) {
-        [Singular event:event.name withArgs:event.info];
+
+- (nonnull MPKitExecStatus *)logBaseEvent:(nonnull MPBaseEvent *)event {
+    if ([event isKindOfClass:[MPEvent class]]) {
+        return [self singularEvent:(MPEvent *)event];
+    } else if ([event isKindOfClass:[MPCommerceEvent class]]) {
+        return [self signularCommerceEvent:(MPCommerceEvent *)event];
+    } else {
+        return [[MPKitExecStatus alloc]
+                initWithSDKCode:[[self class] kitCode]
+                returnCode:MPKitReturnCodeUnavailable];;
+    }
+}
+
+- (MPKitExecStatus *)singularEvent:(MPEvent *)event {
+    if (event.customAttributes.count > 0) {
+        [Singular event:event.name withArgs:event.customAttributes];
     } else {
         [Singular event:event.name];
     }
@@ -326,35 +341,23 @@ int ddlTimeout = 60;
 
 - (void) handleOpenURLEvent:(nonnull NSURL *)url{
     if(url){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
+        SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
+        config.openUrl = url;
+        config.singularLinksHandler = ^(SingularLinkParams * params) {
+            NSDictionary *linkInfo = [[NSDictionary alloc]
+                                     initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
+                                     [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
+                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                     nil];
 
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
+            attributionResult.linkInfo = linkInfo;
 
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
+        };
         
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
+        [Singular start:config];
     }
-}
-
-- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
-    if(url){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-
-
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
-
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
-        
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
-    }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
 }
 
 @end
