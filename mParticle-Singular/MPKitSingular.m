@@ -19,6 +19,10 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define KIT_CLASS_NAME @"MPKitSingular"
 #define DEFAULT_CURRENCY @"USD"
 
+// Wrapper Consts
+#define MPARTICLE_WRAPPER_NAME @"mParticle"
+#define MPARTICLE_WRAPPER_VERSION @"1.0.0"
+
 NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
@@ -82,6 +86,8 @@ int ddlTimeout = 60;
         /*
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
+        [Singular setWrapperName:MPARTICLE_WRAPPER_NAME andVersion:MPARTICLE_WRAPPER_VERSION];
+        
         [Singular startSession:apiKey withKey:secret andLaunchOptions:self.launchOptions withSingularLinkHandler:^(SingularLinkParams * params) {
             NSDictionary *linkInfo = [[NSDictionary alloc]
                                      initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,

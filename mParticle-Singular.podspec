@@ -14,11 +14,6 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "8.0"
     s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}', 'SingularSDK/Singular.h'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 7.0'
+    s.ios.dependency 'Singular-SDK', '~> 9.4.0'
     s.ios.vendored_library = 'SingularSDK/libSingular.a'
-    s.ios.libraries = ['sqlite3', 'z']
-    s.ios.frameworks = 'SystemConfiguration'
-    s.ios.pod_target_xcconfig = {
-        'LIBRARY_SEARCH_PATHS' => '$(inherited) $(PODS_ROOT)/mParticle-Singular/SingularSDK/**',
-        'OTHER_LDFLAGS' => '$(inherited) -l"Singular"'
-    }
 end
