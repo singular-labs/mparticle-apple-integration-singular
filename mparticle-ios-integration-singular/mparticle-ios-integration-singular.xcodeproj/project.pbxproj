@@ -1,0 +1,611 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		016236BE89C03C7D3CB5DF4F /* libPods-mparticle_ios_integration_singularTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B61A4C942EA9BC0D43A91C65 /* libPods-mparticle_ios_integration_singularTests.a */; };
+		2116BD1621D3745100DFE453 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD0C21D3745100DFE453 /* README.md */; };
+		2116BD1721D3745100DFE453 /* mParticle-Singular.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */; };
+		2116BD1821D3745100DFE453 /* MPKitSingular.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116BD0F21D3745100DFE453 /* MPKitSingular.m */; };
+		2116BD1921D3745100DFE453 /* MPKitSingular.h in Headers */ = {isa = PBXBuildFile; fileRef = 2116BD1021D3745100DFE453 /* MPKitSingular.h */; };
+		2116BD1A21D3745100DFE453 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD1121D3745100DFE453 /* LICENSE */; };
+		2116BD4121D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */; };
+		2116BD4321D3C2F600DFE453 /* mparticle_ios_integration_singular.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */; };
+		21D1D2EF21D28648007D715E /* mparticle_ios_integration_singular.h in Headers */ = {isa = PBXBuildFile; fileRef = 21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B910BAF6D3779CF1012DE733 /* libPods-mparticle-ios-integration-singular.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 958207AF41BE1D1BB347B893 /* libPods-mparticle-ios-integration-singular.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2116BD4421D3C2F600DFE453 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21D1D2E121D28648007D715E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21D1D2E921D28648007D715E;
+			remoteInfo = "mparticle-ios-integration-singular";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2116BD0C21D3745100DFE453 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mParticle-Singular.podspec"; path = "../mParticle-Singular.podspec"; sourceTree = "<group>"; };
+		2116BD0F21D3745100DFE453 /* MPKitSingular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPKitSingular.m; sourceTree = "<group>"; };
+		2116BD1021D3745100DFE453 /* MPKitSingular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPKitSingular.h; sourceTree = "<group>"; };
+		2116BD1121D3745100DFE453 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		2116BD3E21D3C2F600DFE453 /* mparticle_ios_integration_singularTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mparticle_ios_integration_singularTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mparticle_ios_integration_singularTests.m; sourceTree = "<group>"; };
+		2116BD4221D3C2F600DFE453 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = mparticle_ios_integration_singular.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mparticle_ios_integration_singular.h; sourceTree = "<group>"; };
+		21D1D2EE21D28648007D715E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21D1D32121D28C38007D715E /* libmParticle-Apple-SDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libmParticle-Apple-SDK.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		38AD3862B8021CA90F8678EF /* Pods-mparticle_ios_integration_singularTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mparticle_ios_integration_singularTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests.debug.xcconfig"; sourceTree = "<group>"; };
+		958207AF41BE1D1BB347B893 /* libPods-mparticle-ios-integration-singular.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mparticle-ios-integration-singular.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A581A810D077D6AB25E305AA /* Pods-mparticle_ios_integration_singularTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mparticle_ios_integration_singularTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests.release.xcconfig"; sourceTree = "<group>"; };
+		B61A4C942EA9BC0D43A91C65 /* libPods-mparticle_ios_integration_singularTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mparticle_ios_integration_singularTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B703F2D1E65C5194D486EBED /* Pods-mparticle-ios-integration-singular.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mparticle-ios-integration-singular.debug.xcconfig"; path = "Pods/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular.debug.xcconfig"; sourceTree = "<group>"; };
+		FEDA7199D77DF0FE7CCB7D04 /* Pods-mparticle-ios-integration-singular.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mparticle-ios-integration-singular.release.xcconfig"; path = "Pods/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2116BD3B21D3C2F600DFE453 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2116BD4321D3C2F600DFE453 /* mparticle_ios_integration_singular.framework in Frameworks */,
+				016236BE89C03C7D3CB5DF4F /* libPods-mparticle_ios_integration_singularTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21D1D2E721D28648007D715E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B910BAF6D3779CF1012DE733 /* libPods-mparticle-ios-integration-singular.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2116BD0E21D3745100DFE453 /* mParticle-Singular */ = {
+			isa = PBXGroup;
+			children = (
+				2116BD1021D3745100DFE453 /* MPKitSingular.h */,
+				2116BD0F21D3745100DFE453 /* MPKitSingular.m */,
+			);
+			name = "mParticle-Singular";
+			path = "../mParticle-Singular";
+			sourceTree = "<group>";
+		};
+		2116BD3F21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */ = {
+			isa = PBXGroup;
+			children = (
+				2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */,
+				2116BD4221D3C2F600DFE453 /* Info.plist */,
+			);
+			path = mparticle_ios_integration_singularTests;
+			sourceTree = "<group>";
+		};
+		21D1D2E021D28648007D715E = {
+			isa = PBXGroup;
+			children = (
+				2116BD1121D3745100DFE453 /* LICENSE */,
+				2116BD0E21D3745100DFE453 /* mParticle-Singular */,
+				2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */,
+				2116BD0C21D3745100DFE453 /* README.md */,
+				21D1D2EC21D28648007D715E /* mparticle-ios-integration-singular */,
+				2116BD3F21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */,
+				21D1D2EB21D28648007D715E /* Products */,
+				B92E1DA0F34AEC41068E2C01 /* Pods */,
+				D834A40A1F0C2C4F218BD115 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		21D1D2EB21D28648007D715E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */,
+				2116BD3E21D3C2F600DFE453 /* mparticle_ios_integration_singularTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		21D1D2EC21D28648007D715E /* mparticle-ios-integration-singular */ = {
+			isa = PBXGroup;
+			children = (
+				21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */,
+				21D1D2EE21D28648007D715E /* Info.plist */,
+			);
+			path = "mparticle-ios-integration-singular";
+			sourceTree = "<group>";
+		};
+		B92E1DA0F34AEC41068E2C01 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B703F2D1E65C5194D486EBED /* Pods-mparticle-ios-integration-singular.debug.xcconfig */,
+				FEDA7199D77DF0FE7CCB7D04 /* Pods-mparticle-ios-integration-singular.release.xcconfig */,
+				38AD3862B8021CA90F8678EF /* Pods-mparticle_ios_integration_singularTests.debug.xcconfig */,
+				A581A810D077D6AB25E305AA /* Pods-mparticle_ios_integration_singularTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D834A40A1F0C2C4F218BD115 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21D1D32121D28C38007D715E /* libmParticle-Apple-SDK.a */,
+				958207AF41BE1D1BB347B893 /* libPods-mparticle-ios-integration-singular.a */,
+				B61A4C942EA9BC0D43A91C65 /* libPods-mparticle_ios_integration_singularTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		21D1D2E521D28648007D715E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				21D1D2EF21D28648007D715E /* mparticle_ios_integration_singular.h in Headers */,
+				2116BD1921D3745100DFE453 /* MPKitSingular.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2116BD3D21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2116BD4B21D3C2F600DFE453 /* Build configuration list for PBXNativeTarget "mparticle_ios_integration_singularTests" */;
+			buildPhases = (
+				166F7F3BB4CB0BBF2EE49D0B /* [CP] Check Pods Manifest.lock */,
+				2116BD3A21D3C2F600DFE453 /* Sources */,
+				2116BD3B21D3C2F600DFE453 /* Frameworks */,
+				2116BD3C21D3C2F600DFE453 /* Resources */,
+				AE348DA159EE124B2B1482AF /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2116BD4521D3C2F600DFE453 /* PBXTargetDependency */,
+			);
+			name = mparticle_ios_integration_singularTests;
+			productName = mparticle_ios_integration_singularTests;
+			productReference = 2116BD3E21D3C2F600DFE453 /* mparticle_ios_integration_singularTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		21D1D2E921D28648007D715E /* mparticle-ios-integration-singular */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21D1D2F221D28648007D715E /* Build configuration list for PBXNativeTarget "mparticle-ios-integration-singular" */;
+			buildPhases = (
+				9FE746990B13B782AA7FE402 /* [CP] Check Pods Manifest.lock */,
+				21D1D2E521D28648007D715E /* Headers */,
+				21D1D2E621D28648007D715E /* Sources */,
+				21D1D2E721D28648007D715E /* Frameworks */,
+				21D1D2E821D28648007D715E /* Resources */,
+				2D55CBB8318FBF31C4ACC418 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "mparticle-ios-integration-singular";
+			productName = "mparticle-ios-integration-singular";
+			productReference = 21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		21D1D2E121D28648007D715E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Singular Labs";
+				TargetAttributes = {
+					2116BD3D21D3C2F600DFE453 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					21D1D2E921D28648007D715E = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 21D1D2E421D28648007D715E /* Build configuration list for PBXProject "mparticle-ios-integration-singular" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 21D1D2E021D28648007D715E;
+			productRefGroup = 21D1D2EB21D28648007D715E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				21D1D2E921D28648007D715E /* mparticle-ios-integration-singular */,
+				2116BD3D21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2116BD3C21D3C2F600DFE453 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21D1D2E821D28648007D715E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2116BD1A21D3745100DFE453 /* LICENSE in Resources */,
+				2116BD1621D3745100DFE453 /* README.md in Resources */,
+				2116BD1721D3745100DFE453 /* mParticle-Singular.podspec in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		166F7F3BB4CB0BBF2EE49D0B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mparticle_ios_integration_singularTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D55CBB8318FBF31C4ACC418 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mparticle-ios-integration-singular/Pods-mparticle-ios-integration-singular-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9FE746990B13B782AA7FE402 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-mparticle-ios-integration-singular-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE348DA159EE124B2B1482AF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mparticle_ios_integration_singularTests/Pods-mparticle_ios_integration_singularTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2116BD3A21D3C2F600DFE453 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2116BD4121D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21D1D2E621D28648007D715E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2116BD1821D3745100DFE453 /* MPKitSingular.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2116BD4521D3C2F600DFE453 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21D1D2E921D28648007D715E /* mparticle-ios-integration-singular */;
+			targetProxy = 2116BD4421D3C2F600DFE453 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2116BD4621D3C2F600DFE453 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 38AD3862B8021CA90F8678EF /* Pods-mparticle_ios_integration_singularTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DZG6XY7PWJ;
+				INFOPLIST_FILE = mparticle_ios_integration_singularTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singularTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2116BD4721D3C2F600DFE453 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A581A810D077D6AB25E305AA /* Pods-mparticle_ios_integration_singularTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DZG6XY7PWJ;
+				INFOPLIST_FILE = mparticle_ios_integration_singularTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singularTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		21D1D2F021D28648007D715E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VALID_ARCHS = "arm64e armv7 armv7s arm64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		21D1D2F121D28648007D715E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64e armv7 armv7s arm64";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		21D1D2F321D28648007D715E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B703F2D1E65C5194D486EBED /* Pods-mparticle-ios-integration-singular.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DZG6XY7PWJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "mparticle-ios-integration-singular/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singular";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64e armv7 armv7s arm64";
+			};
+			name = Debug;
+		};
+		21D1D2F421D28648007D715E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FEDA7199D77DF0FE7CCB7D04 /* Pods-mparticle-ios-integration-singular.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = DZG6XY7PWJ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "mparticle-ios-integration-singular/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singular";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64e armv7 armv7s arm64";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2116BD4B21D3C2F600DFE453 /* Build configuration list for PBXNativeTarget "mparticle_ios_integration_singularTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2116BD4621D3C2F600DFE453 /* Debug */,
+				2116BD4721D3C2F600DFE453 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21D1D2E421D28648007D715E /* Build configuration list for PBXProject "mparticle-ios-integration-singular" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21D1D2F021D28648007D715E /* Debug */,
+				21D1D2F121D28648007D715E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		21D1D2F221D28648007D715E /* Build configuration list for PBXNativeTarget "mparticle-ios-integration-singular" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				21D1D2F321D28648007D715E /* Debug */,
+				21D1D2F421D28648007D715E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 21D1D2E121D28648007D715E /* Project object */;
+}
