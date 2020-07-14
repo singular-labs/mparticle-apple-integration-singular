@@ -12,8 +12,7 @@ Pod::Spec.new do |s|
     s.social_media_url = "https://twitter.com/mparticle"
 
     s.ios.deployment_target = "8.0"
-    s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}', 'SingularSDK/Singular.h'
+    s.ios.source_files      = 'mParticle-Singular/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 7.0'
     s.ios.dependency 'Singular-SDK', '~> 9.4.0'
-    s.ios.vendored_library = 'SingularSDK/libSingular.a'
 end
