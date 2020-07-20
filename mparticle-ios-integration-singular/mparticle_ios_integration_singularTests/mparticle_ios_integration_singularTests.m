@@ -52,96 +52,96 @@
     XCTAssertTrue([execResult returnCode] == MPKitReturnCodeRequirementsNotMet);
 }
 
-- (void)testLogEventWithoutInfo {
-    
-    [self testValidConfiguration];
-    
-    MPEvent * event = [[MPEvent alloc] initWithName:@"Test Event" type:MPEventTypeOther];
-    
-    MPKitExecStatus * execResult = [_singularKit logEvent:event];
-    
-    [NSThread sleepForTimeInterval:2];
-    
-    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
-}
-
-- (void)testLogEventWithInfo {
-    
-    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
-    
-    [config setObject:SDK_KEY forKey:API_KEY];
-    [config setObject:SDK_SECRET forKey:SECRET_KEY];
-    
-    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
-    
-    MPEvent * event = [[MPEvent alloc] initWithName:@"Test Event" type:MPEventTypeOther];
-    
-    NSDictionary<NSString*,id> * eventInfo = [[NSMutableDictionary alloc] init];
-    
-    [eventInfo setValue:@"True" forKey:@"Testing"];
-    [event setInfo:eventInfo];
-    
-    execResult = [_singularKit logEvent:event];
-    
-    [NSThread sleepForTimeInterval:2];
-    
-    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
-}
-
-- (void)testLogCommerceEventWithProducts {
-    
-    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
-    
-    [config setObject:SDK_KEY forKey:API_KEY];
-    [config setObject:SDK_SECRET forKey:SECRET_KEY];
-    
-    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
-    
-    MPProduct * product = [[MPProduct alloc] initWithName:@"Very Nice!"
-                                                      sku:@"12345"
-                                                 quantity:[NSNumber numberWithDouble:5.0]
-                                                    price:[NSNumber numberWithDouble:5.0]];
-    
-    MPCommerceEvent * event = [[MPCommerceEvent alloc] initWithAction:MPCommerceEventActionPurchase
-                                                              product:product];
-    
-    execResult = [_singularKit logCommerceEvent:event];
-    
-    [NSThread sleepForTimeInterval:2];
-    
-    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
-}
-
-- (void)testLogCommerceEventWithInstructions {
-    
-    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
-    
-    [config setObject:SDK_KEY forKey:API_KEY];
-    [config setObject:SDK_SECRET forKey:SECRET_KEY];
-    
-    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
-    
-    MPProduct * product = [[MPProduct alloc] initWithName:@"Very Nice!"
-                                                      sku:@"12345"
-                                                 quantity:[NSNumber numberWithDouble:5.0]
-                                                    price:[NSNumber numberWithDouble:5.0]];
-    
-    MPCommerceEvent * event = [[MPCommerceEvent alloc] initWithAction:MPCommerceEventActionViewDetail
-                                                              product:product];
-    
-    execResult = [_singularKit logCommerceEvent:event];
-    
-    [NSThread sleepForTimeInterval:2];
-    
-    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
-}
-
-- (void)testLoggingAllEvents{
-    [self testValidConfiguration];
-    [self testLogEventWithoutInfo];
-    [self testLogEventWithInfo];
-    [self testLogCommerceEventWithProducts];
-    [self testLogCommerceEventWithInstructions];
-}
+//- (void)testLogEventWithoutInfo {
+//
+//    [self testValidConfiguration];
+//
+//    MPEvent * event = [[MPEvent alloc] initWithName:@"Test Event" type:MPEventTypeOther];
+//
+//    MPKitExecStatus * execResult = [_singularKit logBaseEvent:event];
+//
+//    [NSThread sleepForTimeInterval:2];
+//
+//    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
+//}
+//
+//- (void)testLogEventWithInfo {
+//
+//    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
+//
+//    [config setObject:SDK_KEY forKey:API_KEY];
+//    [config setObject:SDK_SECRET forKey:SECRET_KEY];
+//
+//    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
+//
+//    MPEvent * event = [[MPEvent alloc] initWithName:@"Test Event" type:MPEventTypeOther];
+//
+//    NSDictionary<NSString*,id> * eventInfo = [[NSMutableDictionary alloc] init];
+//
+//    [eventInfo setValue:@"True" forKey:@"Testing"];
+//    [event setCustomAttributes:eventInfo];
+//
+//    execResult = [_singularKit logBaseEvent:event];
+//
+//    [NSThread sleepForTimeInterval:2];
+//
+//    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
+//}
+//
+//- (void)testLogCommerceEventWithProducts {
+//
+//    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
+//
+//    [config setObject:SDK_KEY forKey:API_KEY];
+//    [config setObject:SDK_SECRET forKey:SECRET_KEY];
+//
+//    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
+//
+//    MPProduct * product = [[MPProduct alloc] initWithName:@"Very Nice!"
+//                                                      sku:@"12345"
+//                                                 quantity:[NSNumber numberWithDouble:5.0]
+//                                                    price:[NSNumber numberWithDouble:5.0]];
+//
+//    MPCommerceEvent * event = [[MPCommerceEvent alloc] initWithAction:MPCommerceEventActionPurchase
+//                                                              product:product];
+//
+//    execResult = [_singularKit logBaseEvent:event];
+//
+//    [NSThread sleepForTimeInterval:2];
+//
+//    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
+//}
+//
+//- (void)testLogCommerceEventWithInstructions {
+//
+//    NSMutableDictionary * config = [[NSMutableDictionary alloc] init];
+//
+//    [config setObject:SDK_KEY forKey:API_KEY];
+//    [config setObject:SDK_SECRET forKey:SECRET_KEY];
+//
+//    MPKitExecStatus * execResult = [_singularKit didFinishLaunchingWithConfiguration:config];
+//
+//    MPProduct * product = [[MPProduct alloc] initWithName:@"Very Nice!"
+//                                                      sku:@"12345"
+//                                                 quantity:[NSNumber numberWithDouble:5.0]
+//                                                    price:[NSNumber numberWithDouble:5.0]];
+//
+//    MPCommerceEvent * event = [[MPCommerceEvent alloc] initWithAction:MPCommerceEventActionViewDetail
+//                                                              product:product];
+//
+//    execResult = [_singularKit logBaseEvent:event];
+//
+//    [NSThread sleepForTimeInterval:2];
+//
+//    XCTAssertTrue([execResult returnCode] == MPKitReturnCodeSuccess);
+//}
+//
+//- (void)testLoggingAllEvents{
+//    [self testValidConfiguration];
+//    [self testLogEventWithoutInfo];
+//    [self testLogEventWithInfo];
+//    [self testLogCommerceEventWithProducts];
+//    [self testLogCommerceEventWithInstructions];
+//}
 
 @end

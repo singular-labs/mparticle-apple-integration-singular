@@ -26,6 +26,7 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
+void (^singularLinkHandler) (SingularLinkParams*);
 
 /*
  mParticle will supply a unique kit code for you. Please contact our team
@@ -88,7 +89,7 @@ int ddlTimeout = 60;
          */
         [Singular setWrapperName:MPARTICLE_WRAPPER_NAME andVersion:MPARTICLE_WRAPPER_VERSION];
         
-        [Singular startSession:apiKey withKey:secret andLaunchOptions:self.launchOptions withSingularLinkHandler:^(SingularLinkParams * params) {
+        singularLinkHandler = ^(SingularLinkParams * params) {
             NSDictionary *linkInfo = [[NSDictionary alloc]
                                      initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
                                      [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
@@ -99,7 +100,11 @@ int ddlTimeout = 60;
             attributionResult.linkInfo = linkInfo;
 
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
+        };
+        
+        [Singular startSession:apiKey withKey:secret
+              andLaunchOptions:self.launchOptions
+       withSingularLinkHandler:singularLinkHandler];
         
         self->_started = YES;
         
@@ -145,18 +150,9 @@ int ddlTimeout = 60;
 - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity
                                restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
-    [Singular startSession:apiKey withKey:secret andUserActivity:userActivity withSingularLinkHandler:^(SingularLinkParams * params) {
-        NSDictionary *linkInfo = [[NSDictionary alloc]
-                                 initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
-                                 [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
-                                 [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
-                                 nil];
-
-        MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-        attributionResult.linkInfo = linkInfo;
-
-        [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-    }];
+    [Singular startSession:apiKey withKey:secret
+           andUserActivity:userActivity
+   withSingularLinkHandler:singularLinkHandler];
 
     // Returning success to the mParticle Kit
     return [self execSuccess];
@@ -191,7 +187,7 @@ int ddlTimeout = 60;
 /*
  This method is called when the user has purchased something
  */
-- (MPKitExecStatus *)signularCommerceEvent:(MPCommerceEvent *)commerceEvent {
+- (MPKitExecStatus *)singularCommerceEvent:(MPCommerceEvent *)commerceEvent {
     
     MPKitExecStatus *execStatus = [[MPKitExecStatus alloc]
                                    initWithSDKCode:@(MPKitInstanceSingularTemp)
@@ -305,7 +301,7 @@ int ddlTimeout = 60;
     if ([event isKindOfClass:[MPEvent class]]) {
         return [self singularEvent:(MPEvent *)event];
     } else if ([event isKindOfClass:[MPCommerceEvent class]]) {
-        return [self signularCommerceEvent:(MPCommerceEvent *)event];
+        return [self singularCommerceEvent:(MPCommerceEvent *)event];
     } else {
         return [[MPKitExecStatus alloc]
                 initWithSDKCode:[[self class] kitCode]
@@ -349,18 +345,7 @@ int ddlTimeout = 60;
     if(url){
         SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
         config.openUrl = url;
-        config.singularLinksHandler = ^(SingularLinkParams * params) {
-            NSDictionary *linkInfo = [[NSDictionary alloc]
-                                     initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
-                                     [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
-                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
-                                     nil];
-
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = linkInfo;
-
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        };
+        config.singularLinksHandler = singularLinkHandler;
         
         [Singular start:config];
     }
