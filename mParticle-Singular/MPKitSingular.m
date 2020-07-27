@@ -2,8 +2,7 @@
 #import <Singular/Singular.h>
 #import <Singular/SingularConfig.h>
 
-// This is temporary to allow compilation (will be provided by core SDK)
-NSUInteger MPKitInstanceSingularTemp = 119;
+NSUInteger MPKitInstanceSingularKitId = 119;
 
 @implementation MPKitSingular
 
@@ -21,7 +20,7 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 
 // Wrapper Consts
 #define MPARTICLE_WRAPPER_NAME @"mParticle"
-#define MPARTICLE_WRAPPER_VERSION @"1.0.0"
+#define MPARTICLE_WRAPPER_VERSION @"1.0.1"
 
 NSString *apiKey;
 NSString *secret;
@@ -171,7 +170,7 @@ void (^singularLinkHandler) (SingularLinkParams*);
         } @catch (NSException *exception) {
             NSLog(@"mParticle -> Invalid age: %@", value);
             return [[MPKitExecStatus alloc]
-                    initWithSDKCode:@(MPKitInstanceSingularTemp)
+                    initWithSDKCode:@(MPKitInstanceSingularKitId)
                     returnCode:MPKitReturnCodeFail];;
         }
     } else if ([key isEqualToString:mParticleUserAttributeGender]) {
@@ -189,10 +188,7 @@ void (^singularLinkHandler) (SingularLinkParams*);
  */
 - (MPKitExecStatus *)singularCommerceEvent:(MPCommerceEvent *)commerceEvent {
     
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc]
-                                   initWithSDKCode:@(MPKitInstanceSingularTemp)
-                                   returnCode:MPKitReturnCodeSuccess
-                                   forwardCount:0];
+    MPKitExecStatus *execStatus = [self execSuccess];
     
     if (commerceEvent.action == MPCommerceEventActionPurchase){
         [self handleRevenueEvents:commerceEvent execStatus:execStatus];
@@ -292,6 +288,14 @@ void (^singularLinkHandler) (SingularLinkParams*);
     [execStatus incrementForwardCount];
 }
 
+- (nonnull MPKitExecStatus *)setConsentState:(nullable MPConsentState *)state{
+    if (state && [state ccpaConsentState]){
+        [Singular limitDataSharing:[[state ccpaConsentState] consented]];
+    }
+    
+    return [self execSuccess];
+}
+
 #pragma mark Events
 /*
  This method is called when an event is fired
@@ -337,7 +341,7 @@ void (^singularLinkHandler) (SingularLinkParams*);
 
 - (nonnull MPKitExecStatus *) execSuccess{
     return [[MPKitExecStatus alloc]
-            initWithSDKCode:@(MPKitInstanceSingularTemp)
+            initWithSDKCode:@(MPKitInstanceSingularKitId)
             returnCode:MPKitReturnCodeSuccess];
 }
 

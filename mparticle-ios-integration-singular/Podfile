@@ -7,7 +7,7 @@ target 'mparticle-ios-integration-singular' do
 
   # Pods for mparticle-ios-integration-singular
   pod 'mParticle-Apple-SDK/mParticle', '~> 7.0'
-  pod 'Singular-SDK', '~> 9.4.0'
+  pod 'Singular-SDK', '~> 9.4.2'
 end
 
 target 'mparticle_ios_integration_singularTests' do
@@ -16,5 +16,5 @@ target 'mparticle_ios_integration_singularTests' do
     
     # Pods for mparticle-ios-integration-singular
     pod 'mParticle-Apple-SDK/mParticle', '~> 7.0'
-    pod 'Singular-SDK', '~> 9.4.0'
+    pod 'Singular-SDK', '~> 9.4.2'
 end
