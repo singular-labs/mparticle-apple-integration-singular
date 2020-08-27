@@ -5,7 +5,9 @@
 #import "mParticle.h"
 #endif
 
-#define SINGULAR_DEEPLINK_KEY @"SingularDeepLink"
+#define SINGULAR_DEEPLINK_KEY @"singular_deeplink"
+#define SINGULAR_PASSTHROUGH_KEY @"singular_passthrough"
+#define SINGULAR_IS_DEFERRED_KEY @"singular_is_deferred"
 
 @interface MPKitSingular : NSObject <MPKitProtocol>
 

@@ -1,8 +1,8 @@
 #import "MPKitSingular.h"
-#import "Singular.h"
+#import <Singular/Singular.h>
+#import <Singular/SingularConfig.h>
 
-// This is temporary to allow compilation (will be provided by core SDK)
-NSUInteger MPKitInstanceSingularTemp = 119;
+NSUInteger MPKitInstanceSingularKitId = 119;
 
 @implementation MPKitSingular
 
@@ -14,10 +14,18 @@ NSUInteger MPKitInstanceSingularTemp = 119;
 #define TOTAL_PRODUCT_AMOUNT @"Total Product Amount"
 #define USER_GENDER_MALE @"m"
 #define USER_GENDER_FEMALE @"f"
+#define INIT_WITH_NAME @"Singular"
+#define KIT_CLASS_NAME @"MPKitSingular"
+#define DEFAULT_CURRENCY @"USD"
 
-NSString *appKey;
+// Wrapper Consts
+#define MPARTICLE_WRAPPER_NAME @"mParticle"
+#define MPARTICLE_WRAPPER_VERSION @"1.0.1"
+
+NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
+void (^singularLinkHandler) (SingularLinkParams*);
 
 /*
  mParticle will supply a unique kit code for you. Please contact our team
@@ -27,36 +35,49 @@ int ddlTimeout = 60;
 }
 
 + (void)load {
-    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:@"Singular" className:@"MPKitSingular"];
+    MPKitRegister *kitRegister = [[MPKitRegister alloc] initWithName:INIT_WITH_NAME
+                                                           className:KIT_CLASS_NAME];
+
     [MParticle registerExtension:kitRegister];
 }
 
 #pragma mark - MPKitInstanceProtocol methods
 
 #pragma mark Kit instance and lifecycle
+
 - (MPKitExecStatus *)didFinishLaunchingWithConfiguration:(NSDictionary *)configuration {
-    MPKitExecStatus *execStatus = nil;
+
+    [self extractDataFromConfiguration:configuration];
     
-    if(configuration[API_KEY] != nil)
-        appKey = configuration[API_KEY];
-    if(configuration[SECRET_KEY] != nil)
+    // If the app key wasn't initialized, error code must be returned to alert mParticle
+    if (!apiKey) {
+        return [[MPKitExecStatus alloc]
+                initWithSDKCode:[[self class] kitCode]
+                returnCode:MPKitReturnCodeRequirementsNotMet];
+    }
+
+    _configuration = configuration;
+
+    [self start];
+
+    return [[MPKitExecStatus alloc]
+            initWithSDKCode:[[self class] kitCode]
+            returnCode:MPKitReturnCodeSuccess];
+}
+
+- (void)extractDataFromConfiguration:(NSDictionary * _Nonnull)configuration {
+    if(configuration[API_KEY] != nil){
+        apiKey = configuration[API_KEY];
+    }
+
+    if(configuration[SECRET_KEY] != nil){
         secret = configuration[SECRET_KEY];
+    }
+
     if(configuration[DDL_TIMEOUT] != nil){
         ddlTimeout = [configuration[DDL_TIMEOUT] intValue];
         [Singular setDeferredDeepLinkTimeout:ddlTimeout];
     }
-    
-    if (!appKey) {
-        execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeRequirementsNotMet];
-        return execStatus;
-    }
-    
-    _configuration = configuration;
-    
-    [self start];
-    
-    execStatus = [[MPKitExecStatus alloc] initWithSDKCode:[[self class] kitCode] returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
 }
 
 - (void)start{
@@ -65,28 +86,41 @@ int ddlTimeout = 60;
         /*
          Start your SDK here. The configuration dictionary can be retrieved from self.configuration
          */
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
-            
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
+        [Singular setWrapperName:MPARTICLE_WRAPPER_NAME andVersion:MPARTICLE_WRAPPER_VERSION];
         
-        [Singular startSession:appKey withKey:secret];
+        singularLinkHandler = ^(SingularLinkParams * params) {
+            NSDictionary *linkInfo = [[NSDictionary alloc]
+                                     initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
+                                     [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
+                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                     nil];
+
+            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
+            attributionResult.linkInfo = linkInfo;
+
+            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
+        };
+        
+        [Singular startSession:apiKey withKey:secret
+              andLaunchOptions:self.launchOptions
+       withSingularLinkHandler:singularLinkHandler];
+        
         self->_started = YES;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary *userInfo = @{mParticleKitInstanceKey:[[self class] kitCode]};
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:mParticleKitDidBecomeActiveNotification
-                                                                object:nil
-                                                              userInfo:userInfo];
+            [[NSNotificationCenter defaultCenter]
+             postNotificationName:mParticleKitDidBecomeActiveNotification
+             object:nil
+             userInfo:userInfo];
         });
     });
 }
 
+/*
+ It's not clear what's going on here, but still to scared to change it...
+ */
 - (id const)providerKitInstance {
     if (![self started]) {
         return nil;
@@ -106,159 +140,219 @@ int ddlTimeout = 60;
 #pragma mark Application
 - (MPKitExecStatus *)setDeviceToken:(NSData *)deviceToken {
     [Singular registerDeviceTokenForUninstall:deviceToken];
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
+    return [self execSuccess];
 }
 
 /*
  Implement this method if your SDK handles continueUserActivity method from the App Delegate
  */
-- (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
+- (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity
+                               restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
-    if([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
-            
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
-        
-        NSURL *url = userActivity.webpageURL;
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
-    }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
+    [Singular startSession:apiKey withKey:secret
+           andUserActivity:userActivity
+   withSingularLinkHandler:singularLinkHandler];
+
+    // Returning success to the mParticle Kit
+    return [self execSuccess];
 }
 
-
 - (MPKitExecStatus *)setUserAttribute:(NSString *)key value:(NSString *)value {
-    MPKitExecStatus *execStatus;
+
+    // Checking if the user attribute is age
     if ([key isEqualToString:mParticleUserAttributeAge]) {
-        NSInteger age = 0;
+
+        // Trying to parse and set the age
         @try {
-            age = [value integerValue];
+            NSInteger age = [value integerValue];
+            [Singular setAge:[NSString stringWithFormat:@"%ld",(long)age]];
+
         } @catch (NSException *exception) {
             NSLog(@"mParticle -> Invalid age: %@", value);
-            execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeFail];
-            return execStatus;
+            return [[MPKitExecStatus alloc]
+                    initWithSDKCode:@(MPKitInstanceSingularKitId)
+                    returnCode:MPKitReturnCodeFail];;
         }
-        [Singular setAge:[NSString stringWithFormat:@"%ld",(long)age]];
-    }else if ([key isEqualToString:mParticleUserAttributeGender]) {
+    } else if ([key isEqualToString:mParticleUserAttributeGender]) {
         [Singular setGender:mParticleGenderMale ? USER_GENDER_MALE : USER_GENDER_FEMALE];
     }
-    execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
+
+    // Returning success to the mParticle Kit
+    return [self execSuccess];
 }
 
 #pragma mark e-Commerce
-- (MPKitExecStatus *)logCommerceEvent:(MPCommerceEvent *)commerceEvent {
+
+/*
+ This method is called when the user has purchased something
+ */
+- (MPKitExecStatus *)singularCommerceEvent:(MPCommerceEvent *)commerceEvent {
     
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess forwardCount:0];
+    MPKitExecStatus *execStatus = [self execSuccess];
     
     if (commerceEvent.action == MPCommerceEventActionPurchase){
-        NSMutableDictionary *baseProductAttributes = [[NSMutableDictionary alloc] init];
-        NSDictionary *transactionAttributes = [commerceEvent.transactionAttributes beautifiedDictionaryRepresentation];
-        
-        if (transactionAttributes) {
-            [baseProductAttributes addEntriesFromDictionary:transactionAttributes];
-        }
-        
-        NSDictionary *commerceEventAttributes = [commerceEvent beautifiedAttributes];
-        NSArray *keys = @[kMPExpCECheckoutOptions, kMPExpCECheckoutStep, kMPExpCEProductListName, kMPExpCEProductListSource];
-        
-        for (NSString *key in keys) {
-            if (commerceEventAttributes[key]) {
-                baseProductAttributes[key] = commerceEventAttributes[key];
-            }
-        }
-        
-        NSArray *products = commerceEvent.products;
-        NSString *currency = commerceEvent.currency ? : @"USD";
-        NSMutableDictionary *properties;
-        
-        for (MPProduct *product in products) {
-            // Add relevant attributes from the commerce event
-            properties = [[NSMutableDictionary alloc] init];
-            if (baseProductAttributes.count > 0) {
-                [properties addEntriesFromDictionary:baseProductAttributes];
-            }
-            
-            // Add attributes from the product itself
-            NSDictionary *productDictionary = [product beautifiedDictionaryRepresentation];
-            if (productDictionary) {
-                [properties addEntriesFromDictionary:productDictionary];
-            }
-            
-            // Strips key/values already being passed to Appboy, plus key/values initialized to default values
-            keys = @[kMPExpProductSKU, kMPProductCurrency, kMPExpProductUnitPrice, kMPExpProductQuantity, kMPProductAffiliation, kMPExpProductCategory, kMPExpProductName];
-            [properties removeObjectsForKeys:keys];
-            
-            //get the amount
-            NSNumber *totalProductAmount = nil;
-            if(properties != nil && [properties valueForKey:TOTAL_PRODUCT_AMOUNT]){
-                totalProductAmount = [properties valueForKey:TOTAL_PRODUCT_AMOUNT];
-            }
-            
-            [Singular revenue:currency amount:[totalProductAmount doubleValue] productSKU:product.sku productName:product.name productCategory:product.category productQuantity:[product.quantity intValue] productPrice:[product.price doubleValue]];
-            [execStatus incrementForwardCount];
-        }
+        [self handleRevenueEvents:commerceEvent execStatus:execStatus];
     }else{
-        NSArray *expandedInstructions = [commerceEvent expandedInstructions];
-        
-        for (MPCommerceEventInstruction *commerceEventInstruction in expandedInstructions) {
-            [self logEvent:commerceEventInstruction.event];
-            [execStatus incrementForwardCount];
+        [self handleEvents:commerceEvent execStatus:execStatus];
+    }
+
+    return execStatus;
+}
+
+- (void)handleEvents:(MPCommerceEvent * _Nonnull)commerceEvent
+          execStatus:(MPKitExecStatus *)execStatus {
+
+    for (MPCommerceEventInstruction *commerceEventInstruction in [commerceEvent expandedInstructions]) {
+        [self logBaseEvent:commerceEventInstruction.event];
+        [execStatus incrementForwardCount];
+    }
+}
+
+- (void)handleRevenueEvents:(MPCommerceEvent * _Nonnull)commerceEvent
+                 execStatus:(MPKitExecStatus *)execStatus {
+
+    NSMutableDictionary *productAttributes = [[NSMutableDictionary alloc] init];
+    NSDictionary *transactionAttributes = [commerceEvent.transactionAttributes beautifiedDictionaryRepresentation];
+
+    if (transactionAttributes) {
+        [productAttributes addEntriesFromDictionary:transactionAttributes];
+    }
+
+    NSDictionary *commerceEventAttributes = [commerceEvent beautifiedAttributes];
+    NSArray *keys = @[kMPExpCECheckoutOptions,
+                      kMPExpCECheckoutStep,
+                      kMPExpCEProductListName,
+                      kMPExpCEProductListSource];
+
+    for (NSString *key in keys) {
+        if (commerceEventAttributes[key]) {
+            productAttributes[key] = commerceEventAttributes[key];
         }
     }
-    return execStatus;
+
+    for (MPProduct *product in commerceEvent.products) {
+
+        // Sending a revenue event for each of the products that was purchased
+        [self sendRevenueEvent:productAttributes
+                      currency:commerceEvent.currency ? : DEFAULT_CURRENCY
+                    execStatus:execStatus
+                          keys:&keys
+                       product:product];
+    }
+}
+
+- (void)sendRevenueEvent:(NSMutableDictionary *)productAttributes
+                currency:(NSString *)currency
+              execStatus:(MPKitExecStatus *)execStatus
+                    keys:(NSArray **)keys
+                 product:(MPProduct *)product {
+
+    // Add relevant attributes from the commerce event
+    NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];
+    if (productAttributes.count > 0) {
+        [properties addEntriesFromDictionary:productAttributes];
+    }
+
+    // Add attributes from the product itself
+    NSDictionary *productDictionary = [product beautifiedDictionaryRepresentation];
+    if (productDictionary) {
+        [properties addEntriesFromDictionary:productDictionary];
+    }
+
+    // Strips key/values already being passed to Appboy, plus key/values initialized to default values
+    *keys = @[kMPExpProductSKU,
+              kMPProductCurrency,
+              kMPExpProductUnitPrice,
+              kMPExpProductQuantity,
+              kMPProductAffiliation,
+              kMPExpProductCategory,
+              kMPExpProductName];
+
+    [properties removeObjectsForKeys:*keys];
+
+    //get the amount
+    NSNumber *totalProductAmount = nil;
+    if(properties != nil && [properties valueForKey:TOTAL_PRODUCT_AMOUNT]){
+        totalProductAmount = [properties valueForKey:TOTAL_PRODUCT_AMOUNT];
+    }
+
+    // Sending the event
+    [Singular revenue:currency
+               amount:[totalProductAmount doubleValue]
+           productSKU:product.sku
+          productName:product.name
+      productCategory:product.category
+      productQuantity:[product.quantity intValue]
+         productPrice:[product.price doubleValue]];
+
+    [execStatus incrementForwardCount];
+}
+
+- (nonnull MPKitExecStatus *)setConsentState:(nullable MPConsentState *)state{
+    if (state && [state ccpaConsentState]){
+        [Singular limitDataSharing:[[state ccpaConsentState] consented]];
+    }
+    
+    return [self execSuccess];
 }
 
 #pragma mark Events
-- (MPKitExecStatus *)logEvent:(MPEvent *)event {
-    if (event.info.count > 0) {
-        [Singular event:event.name withArgs:event.info];
+/*
+ This method is called when an event is fired
+ */
+
+- (nonnull MPKitExecStatus *)logBaseEvent:(nonnull MPBaseEvent *)event {
+    if ([event isKindOfClass:[MPEvent class]]) {
+        return [self singularEvent:(MPEvent *)event];
+    } else if ([event isKindOfClass:[MPCommerceEvent class]]) {
+        return [self singularCommerceEvent:(MPCommerceEvent *)event];
+    } else {
+        return [[MPKitExecStatus alloc]
+                initWithSDKCode:[[self class] kitCode]
+                returnCode:MPKitReturnCodeUnavailable];;
+    }
+}
+
+- (MPKitExecStatus *)singularEvent:(MPEvent *)event {
+    if (event.customAttributes.count > 0) {
+        [Singular event:event.name withArgs:event.customAttributes];
     } else {
         [Singular event:event.name];
     }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
+
+    return [self execSuccess];
 }
 
-- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url sourceApplication:(nullable NSString *)sourceApplication annotation:(nullable id)annotation {
-    if(url){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
-            
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
-        
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
-    }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceBranchMetrics) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
+- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url
+                   sourceApplication:(nullable NSString *)sourceApplication
+                          annotation:(nullable id)annotation {
+    [self handleOpenURLEvent:url];
+
+    return [[MPKitExecStatus alloc]
+            initWithSDKCode:@(MPKitInstanceBranchMetrics)
+            returnCode:MPKitReturnCodeSuccess];
 }
 
-- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url options:(nullable NSDictionary<NSString *, id> *)options {
+- (nonnull MPKitExecStatus *)openURL:(nonnull NSURL *)url
+                             options:(nullable NSDictionary<NSString *, id> *)options {
+    [self handleOpenURLEvent:url];
+    return [self execSuccess];
+}
+
+- (nonnull MPKitExecStatus *) execSuccess{
+    return [[MPKitExecStatus alloc]
+            initWithSDKCode:@(MPKitInstanceSingularKitId)
+            returnCode:MPKitReturnCodeSuccess];
+}
+
+- (void) handleOpenURLEvent:(nonnull NSURL *)url{
     if(url){
-        [Singular registerDeferredDeepLinkHandler:^(NSString *deeplink) {
-            NSDictionary *ddlLink = [[NSDictionary alloc] initWithObjectsAndKeys:deeplink,SINGULAR_DEEPLINK_KEY, nil];
-            
-            
-            MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
-            attributionResult.linkInfo = ddlLink;
-            
-            [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
-        }];
+        SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
+        config.openUrl = url;
+        config.singularLinksHandler = singularLinkHandler;
         
-        [Singular startSession:appKey withKey:secret andLaunchURL:url];
+        [Singular start:config];
     }
-    MPKitExecStatus *execStatus = [[MPKitExecStatus alloc] initWithSDKCode:@(MPKitInstanceSingularTemp) returnCode:MPKitReturnCodeSuccess];
-    return execStatus;
 }
 
 @end
