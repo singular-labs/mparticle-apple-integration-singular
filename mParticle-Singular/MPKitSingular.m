@@ -20,12 +20,16 @@ NSUInteger MPKitInstanceSingularKitId = 119;
 
 // Wrapper Consts
 #define MPARTICLE_WRAPPER_NAME @"mParticle"
-#define MPARTICLE_WRAPPER_VERSION @"1.0.1"
+#define MPARTICLE_WRAPPER_VERSION @"1.1.0"
 
 NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
 void (^singularLinkHandler) (SingularLinkParams*);
+static bool isSKANEnabled = NO;
+static bool isManualMode = NO;
+static void(^conversionValueUpdatedCallback)(NSInteger);
+static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
 
 /*
  mParticle will supply a unique kit code for you. Please contact our team
@@ -101,9 +105,10 @@ void (^singularLinkHandler) (SingularLinkParams*);
             [self->_kitApi onAttributionCompleteWithResult:attributionResult error:nil];
         };
         
-        [Singular startSession:apiKey withKey:secret
-              andLaunchOptions:self.launchOptions
-       withSingularLinkHandler:singularLinkHandler];
+        SingularConfig* config = [self buildSingularConfig];
+        config.launchOptions = self.launchOptions;
+        
+        [Singular start:config];
         
         self->_started = YES;
         
@@ -149,10 +154,11 @@ void (^singularLinkHandler) (SingularLinkParams*);
 - (nonnull MPKitExecStatus *)continueUserActivity:(nonnull NSUserActivity *)userActivity
                                restorationHandler:(void(^ _Nonnull)(NSArray * _Nullable restorableObjects))restorationHandler {
     
-    [Singular startSession:apiKey withKey:secret
-           andUserActivity:userActivity
-   withSingularLinkHandler:singularLinkHandler];
-
+    SingularConfig* config = [self buildSingularConfig];
+    config.userActivity = userActivity;
+    
+    [Singular start:config];
+    
     // Returning success to the mParticle Kit
     return [self execSuccess];
 }
@@ -346,13 +352,31 @@ void (^singularLinkHandler) (SingularLinkParams*);
 }
 
 - (void) handleOpenURLEvent:(nonnull NSURL *)url{
-    if(url){
-        SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
+    if(url) {
+        SingularConfig* config = [self buildSingularConfig];
         config.openUrl = url;
-        config.singularLinksHandler = singularLinkHandler;
-        
         [Singular start:config];
     }
+}
+
+-(SingularConfig*)buildSingularConfig {
+    SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
+    
+    config.singularLinksHandler = singularLinkHandler;
+    
+    config.skAdNetworkEnabled = isSKANEnabled;
+    config.manualSkanConversionManagement = isManualMode;
+    config.conversionValueUpdatedCallback = conversionValueUpdatedCallback;
+    config.waitForTrackingAuthorizationWithTimeoutInterval = waitForTrackingAuthorizationWithTimeoutInterval;
+    
+    return config;
+}
+
++(void)setSKANOptions:(BOOL)skanEnabled andMode:(BOOL)manualMode withWaitForTrackingAuthorizationWithTimeoutInterval:(NSNumber*)waitTrackingAuthorizationWithTimeoutInterval withConversionValueUpdatedHandler:(void(^_Nullable)(NSInteger))conversionValueUpdatedHandler {
+    isSKANEnabled = skanEnabled;
+    isManualMode = manualMode;
+    conversionValueUpdatedCallback = conversionValueUpdatedHandler;
+    waitForTrackingAuthorizationWithTimeoutInterval = waitTrackingAuthorizationWithTimeoutInterval ? [waitTrackingAuthorizationWithTimeoutInterval intValue] : 0;
 }
 
 @end
