@@ -30,6 +30,7 @@ static bool isSKANEnabled = NO;
 static bool isManualMode = NO;
 static void(^conversionValueUpdatedCallback)(NSInteger);
 static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
+static bool isInitialized = NO;
 
 /*
  mParticle will supply a unique kit code for you. Please contact our team
@@ -109,6 +110,7 @@ static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
         config.launchOptions = self.launchOptions;
         
         [Singular start:config];
+        isInitialized = YES;
         
         self->_started = YES;
         
@@ -359,7 +361,7 @@ static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
     }
 }
 
--(SingularConfig*)buildSingularConfig {
+- (SingularConfig*)buildSingularConfig {
     SingularConfig* config = [[SingularConfig alloc] initWithApiKey:apiKey andSecret:secret];
     
     config.singularLinksHandler = singularLinkHandler;
@@ -372,8 +374,12 @@ static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
     return config;
 }
 
-+(void)setSKANOptions:(BOOL)skanEnabled andMode:(BOOL)manualMode withWaitForTrackingAuthorizationWithTimeoutInterval:(NSNumber*)waitTrackingAuthorizationWithTimeoutInterval withConversionValueUpdatedHandler:(void(^_Nullable)(NSInteger))conversionValueUpdatedHandler {
-    isSKANEnabled = skanEnabled;
++ (void)setSKANOptions:(BOOL)skAdNetworkEnabled isManualSkanConversionManagementMode:(BOOL)manualMode withWaitForTrackingAuthorizationWithTimeoutInterval:(NSNumber* _Nullable)waitTrackingAuthorizationWithTimeoutInterval withConversionValueUpdatedHandler:(void(^_Nullable)(NSInteger))conversionValueUpdatedHandler {
+    if (isInitialized) {
+        NSLog(@"Singular Warning: setSKANOptions should be called before init");
+    }
+    
+    isSKANEnabled = skAdNetworkEnabled;
     isManualMode = manualMode;
     conversionValueUpdatedCallback = conversionValueUpdatedHandler;
     waitForTrackingAuthorizationWithTimeoutInterval = waitTrackingAuthorizationWithTimeoutInterval ? [waitTrackingAuthorizationWithTimeoutInterval intValue] : 0;
