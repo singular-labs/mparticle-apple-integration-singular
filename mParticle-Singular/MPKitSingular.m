@@ -20,7 +20,7 @@ NSUInteger MPKitInstanceSingularKitId = 119;
 
 // Wrapper Consts
 #define MPARTICLE_WRAPPER_NAME @"mParticle"
-#define MPARTICLE_WRAPPER_VERSION @"1.1.0"
+#define MPARTICLE_WRAPPER_VERSION @"1.2.0"
 
 NSString *apiKey;
 NSString *secret;
@@ -98,7 +98,7 @@ static bool isInitialized = NO;
             NSDictionary *linkInfo = [[NSDictionary alloc]
                                      initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
                                      [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
-                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                      [NSNumber numberWithBool:[params isDeferred]], SINGULAR_IS_DEFERRED_KEY,
                                      nil];
 
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
