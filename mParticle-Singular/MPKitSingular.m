@@ -98,7 +98,7 @@ static bool isInitialized = NO;
             NSDictionary *linkInfo = [[NSDictionary alloc]
                                      initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
                                      [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
-                                     [params isDeferred], SINGULAR_IS_DEFERRED_KEY,
+                                      [NSNumber numberWithBool:[params isDeferred]], SINGULAR_IS_DEFERRED_KEY,
                                      nil];
 
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
