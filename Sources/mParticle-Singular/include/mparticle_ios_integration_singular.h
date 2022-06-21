@@ -15,5 +15,3 @@ FOUNDATION_EXPORT double mparticle_ios_integration_singularVersionNumber;
 FOUNDATION_EXPORT const unsigned char mparticle_ios_integration_singularVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <mparticle_ios_integration_singular/PublicHeader.h>
-
-

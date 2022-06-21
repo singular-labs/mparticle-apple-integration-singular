@@ -2,6 +2,7 @@
 #import <Singular/Singular.h>
 #import <Singular/SingularConfig.h>
 
+
 NSUInteger MPKitInstanceSingularKitId = 119;
 
 @implementation MPKitSingular

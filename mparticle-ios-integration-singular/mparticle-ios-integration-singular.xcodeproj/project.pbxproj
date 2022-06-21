@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		016236BE89C03C7D3CB5DF4F /* libPods-mparticle_ios_integration_singularTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B61A4C942EA9BC0D43A91C65 /* libPods-mparticle_ios_integration_singularTests.a */; };
+		1A0391CF2860C032000B6207 /* MPKitSingular.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0391CD2860C032000B6207 /* MPKitSingular.m */; };
+		1A0391D02860C032000B6207 /* MPKitSingular.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0391CE2860C032000B6207 /* MPKitSingular.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1A0391D22860C090000B6207 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0391D12860C08F000B6207 /* Package.swift */; };
+		1A0391D62860CF38000B6207 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0391D42860CBCB000B6207 /* UIKit.framework */; };
+		1A0391D72860CFE5000B6207 /* MPKitSingular.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0391CD2860C032000B6207 /* MPKitSingular.m */; };
 		2116BD1621D3745100DFE453 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD0C21D3745100DFE453 /* README.md */; };
 		2116BD1721D3745100DFE453 /* mParticle-Singular.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */; };
-		2116BD1821D3745100DFE453 /* MPKitSingular.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116BD0F21D3745100DFE453 /* MPKitSingular.m */; };
-		2116BD1921D3745100DFE453 /* MPKitSingular.h in Headers */ = {isa = PBXBuildFile; fileRef = 2116BD1021D3745100DFE453 /* MPKitSingular.h */; };
 		2116BD1A21D3745100DFE453 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2116BD1121D3745100DFE453 /* LICENSE */; };
 		2116BD4121D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */; };
 		2116BD4321D3C2F600DFE453 /* mparticle_ios_integration_singular.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21D1D2EA21D28648007D715E /* mparticle_ios_integration_singular.framework */; };
@@ -30,10 +33,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A0391CD2860C032000B6207 /* MPKitSingular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPKitSingular.m; sourceTree = "<group>"; };
+		1A0391CE2860C032000B6207 /* MPKitSingular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPKitSingular.h; sourceTree = "<group>"; };
+		1A0391D12860C08F000B6207 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = "<group>"; };
+		1A0391D42860CBCB000B6207 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.3.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2116BD0C21D3745100DFE453 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "mParticle-Singular.podspec"; path = "../mParticle-Singular.podspec"; sourceTree = "<group>"; };
-		2116BD0F21D3745100DFE453 /* MPKitSingular.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPKitSingular.m; sourceTree = "<group>"; };
-		2116BD1021D3745100DFE453 /* MPKitSingular.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPKitSingular.h; sourceTree = "<group>"; };
 		2116BD1121D3745100DFE453 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		2116BD3E21D3C2F600DFE453 /* mparticle_ios_integration_singularTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mparticle_ios_integration_singularTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2116BD4021D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mparticle_ios_integration_singularTests.m; sourceTree = "<group>"; };
@@ -65,20 +70,39 @@
 			buildActionMask = 2147483647;
 			files = (
 				B910BAF6D3779CF1012DE733 /* libPods-mparticle-ios-integration-singular.a in Frameworks */,
+				1A0391D62860CF38000B6207 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2116BD0E21D3745100DFE453 /* mParticle-Singular */ = {
+		1A0391CB2860C032000B6207 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				2116BD1021D3745100DFE453 /* MPKitSingular.h */,
-				2116BD0F21D3745100DFE453 /* MPKitSingular.m */,
+				1A0391CC2860C032000B6207 /* mParticle-Singular */,
+				21D1D2EE21D28648007D715E /* Info.plist */,
 			);
-			name = "mParticle-Singular";
-			path = "../mParticle-Singular";
+			name = Sources;
+			path = ../Sources;
+			sourceTree = "<group>";
+		};
+		1A0391CC2860C032000B6207 /* mParticle-Singular */ = {
+			isa = PBXGroup;
+			children = (
+				1A0391D32860C5D4000B6207 /* include */,
+				1A0391CD2860C032000B6207 /* MPKitSingular.m */,
+			);
+			path = "mParticle-Singular";
+			sourceTree = "<group>";
+		};
+		1A0391D32860C5D4000B6207 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */,
+				1A0391CE2860C032000B6207 /* MPKitSingular.h */,
+			);
+			path = include;
 			sourceTree = "<group>";
 		};
 		2116BD3F21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */ = {
@@ -94,10 +118,10 @@
 			isa = PBXGroup;
 			children = (
 				2116BD1121D3745100DFE453 /* LICENSE */,
-				2116BD0E21D3745100DFE453 /* mParticle-Singular */,
+				1A0391D12860C08F000B6207 /* Package.swift */,
 				2116BD0D21D3745100DFE453 /* mParticle-Singular.podspec */,
+				1A0391CB2860C032000B6207 /* Sources */,
 				2116BD0C21D3745100DFE453 /* README.md */,
-				21D1D2EC21D28648007D715E /* mparticle-ios-integration-singular */,
 				2116BD3F21D3C2F600DFE453 /* mparticle_ios_integration_singularTests */,
 				21D1D2EB21D28648007D715E /* Products */,
 				B92E1DA0F34AEC41068E2C01 /* Pods */,
@@ -114,15 +138,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		21D1D2EC21D28648007D715E /* mparticle-ios-integration-singular */ = {
-			isa = PBXGroup;
-			children = (
-				21D1D2ED21D28648007D715E /* mparticle_ios_integration_singular.h */,
-				21D1D2EE21D28648007D715E /* Info.plist */,
-			);
-			path = "mparticle-ios-integration-singular";
-			sourceTree = "<group>";
-		};
 		B92E1DA0F34AEC41068E2C01 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +152,7 @@
 		D834A40A1F0C2C4F218BD115 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A0391D42860CBCB000B6207 /* UIKit.framework */,
 				21D1D32121D28C38007D715E /* libmParticle-Apple-SDK.a */,
 				958207AF41BE1D1BB347B893 /* libPods-mparticle-ios-integration-singular.a */,
 				B61A4C942EA9BC0D43A91C65 /* libPods-mparticle_ios_integration_singularTests.a */,
@@ -152,7 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21D1D2EF21D28648007D715E /* mparticle_ios_integration_singular.h in Headers */,
-				2116BD1921D3745100DFE453 /* MPKitSingular.h in Headers */,
+				1A0391D02860C032000B6207 /* MPKitSingular.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +229,7 @@
 					};
 					21D1D2E921D28648007D715E = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1330;
 					};
 				};
 			};
@@ -340,6 +357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A0391D72860CFE5000B6207 /* MPKitSingular.m in Sources */,
 				2116BD4121D3C2F600DFE453 /* mparticle_ios_integration_singularTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,7 +366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2116BD1821D3745100DFE453 /* MPKitSingular.m in Sources */,
+				1A0391D22860C090000B6207 /* Package.swift in Sources */,
+				1A0391CF2860C032000B6207 /* MPKitSingular.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +386,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38AD3862B8021CA90F8678EF /* Pods-mparticle_ios_integration_singularTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DZG6XY7PWJ;
 				INFOPLIST_FILE = mparticle_ios_integration_singularTests/Info.plist;
@@ -385,6 +405,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A581A810D077D6AB25E305AA /* Pods-mparticle_ios_integration_singularTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DZG6XY7PWJ;
 				INFOPLIST_FILE = mparticle_ios_integration_singularTests/Info.plist;
@@ -525,6 +546,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B703F2D1E65C5194D486EBED /* Pods-mparticle-ios-integration-singular.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -532,7 +554,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "mparticle-ios-integration-singular/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -543,6 +565,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singular";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64e armv7 armv7s arm64";
 			};
@@ -552,6 +576,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FEDA7199D77DF0FE7CCB7D04 /* Pods-mparticle-ios-integration-singular.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -559,7 +584,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "mparticle-ios-integration-singular/Info.plist";
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -570,6 +595,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Singular.mparticle-ios-integration-singular";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64e armv7 armv7s arm64";
 			};
