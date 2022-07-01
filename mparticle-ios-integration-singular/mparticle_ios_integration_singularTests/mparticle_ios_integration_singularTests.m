@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "../../../mparticle-apple-integration-singular/mParticle-Singular/MPKitSingular.h"
+#import "../../../Sources/mParticle-Singular/include/MPKitSingular.h"
 #import <AdSupport/ASIdentifierManager.h>
 
 #define API_KEY @"apiKey"
