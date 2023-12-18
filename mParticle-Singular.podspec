@@ -15,6 +15,6 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "9.0"
     s.ios.source_files      = 'Sources/mParticle-Singular/**/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 8.0'
-    s.ios.dependency 'Singular-SDK'
+    s.ios.dependency 'Singular-SDK', '~> 12.0'
 
 end

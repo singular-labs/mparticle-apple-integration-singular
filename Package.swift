@@ -15,7 +15,7 @@ let package = Package(
       .package(url: "https://github.com/mParticle/mparticle-apple-sdk",
                .upToNextMajor(from: "8.0.0")),
       .package(url: "https://github.com/singular-labs/Singular-iOS-SDK",
-               .upToNextMajor(from: "11.0.0")),
+               .upToNextMajor(from: "12.0.0")),
     ],
     targets: [
         .target(
