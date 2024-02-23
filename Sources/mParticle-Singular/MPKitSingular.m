@@ -2,7 +2,6 @@
 #import <Singular/Singular.h>
 #import <Singular/SingularConfig.h>
 
-
 NSUInteger MPKitInstanceSingularKitId = 119;
 
 @implementation MPKitSingular
@@ -23,17 +22,23 @@ NSUInteger MPKitInstanceSingularKitId = 119;
 #define MPARTICLE_WRAPPER_NAME @"mParticle"
 #define MPARTICLE_WRAPPER_VERSION @"1.2.0"
 
+
 NSString *apiKey;
 NSString *secret;
 int ddlTimeout = 60;
 void (^singularLinkHandler) (SingularLinkParams*);
+typedef void (^sdidAccessorHandler)(NSString*);
 
 static bool isSKANEnabled = NO;
 static bool isManualMode = NO;
 static void(^conversionValueUpdatedCallback)(NSInteger);
 static int waitForTrackingAuthorizationWithTimeoutInterval = 0;
 static bool isInitialized = NO;
+static NSString* customSDID;
+static sdidAccessorHandler sdidReceiveHandler;
+static sdidAccessorHandler didSetSdidHandler;
 
+static void(^deviceAttributionCallback)(NSDictionary *);
 /*
  mParticle will supply a unique kit code for you. Please contact our team
  */
@@ -96,11 +101,21 @@ static bool isInitialized = NO;
         [Singular setWrapperName:MPARTICLE_WRAPPER_NAME andVersion:MPARTICLE_WRAPPER_VERSION];
         
         singularLinkHandler = ^(SingularLinkParams * params) {
-            NSDictionary *linkInfo = [[NSDictionary alloc]
-                                     initWithObjectsAndKeys:[params getDeepLink] ,SINGULAR_DEEPLINK_KEY,
-                                     [params getPassthrough], SINGULAR_PASSTHROUGH_KEY,
-                                      [NSNumber numberWithBool:[params isDeferred]], SINGULAR_IS_DEFERRED_KEY,
-                                     nil];
+            NSMutableDictionary *linkInfo = [[NSMutableDictionary alloc]init];
+            
+            if ([params getDeepLink] != nil) {
+                [linkInfo setObject:[params getDeepLink] forKey:SINGULAR_DEEPLINK_KEY];
+            }
+            
+            if ([params getPassthrough] != nil) {
+                [linkInfo setObject:[params getPassthrough] forKey:SINGULAR_PASSTHROUGH_KEY];
+            }
+             
+            if ([params getUrlParameters] != nil) {
+                [linkInfo setObject:[params getUrlParameters] forKey:SINGULAR_QUERY_PARAMS];
+            }
+            
+            [linkInfo setObject:[NSNumber numberWithBool:[params isDeferred]] forKey:SINGULAR_IS_DEFERRED_KEY];
 
             MPAttributionResult *attributionResult = [[MPAttributionResult alloc] init];
             attributionResult.linkInfo = linkInfo;
@@ -370,6 +385,12 @@ static bool isInitialized = NO;
     
     config.singularLinksHandler = singularLinkHandler;
     
+    config.customSdid = customSDID;
+    config.sdidReceivedHandler = sdidReceiveHandler;
+    config.didSetSdidHandler = didSetSdidHandler;
+    
+    config.deviceAttributionCallback = deviceAttributionCallback;
+    
     config.skAdNetworkEnabled = isSKANEnabled;
     config.manualSkanConversionManagement = isManualMode;
     config.conversionValueUpdatedCallback = conversionValueUpdatedCallback;
@@ -387,6 +408,24 @@ static bool isInitialized = NO;
     isManualMode = manualMode;
     conversionValueUpdatedCallback = conversionValueUpdatedHandler;
     waitForTrackingAuthorizationWithTimeoutInterval = waitTrackingAuthorizationWithTimeoutInterval ? [waitTrackingAuthorizationWithTimeoutInterval intValue] : 0;
+}
+
++ (void)setCustomSDID:(NSString *)customSdid sdidReceivedHandler:(void(^_Nullable)(NSString *))sdidReceivedHandler didSetSdidHandler:(void(^_Nullable)(NSString *))setSdidHandler {
+    if (isInitialized) {
+        NSLog(@"Singular Warning: setCustomSDID should be called before init");
+    }
+
+    customSDID = customSdid;
+    sdidReceiveHandler = sdidReceivedHandler;
+    didSetSdidHandler = setSdidHandler;
+}
+
++ (void)setDeviceAttributionCallback:(void(^_Nullable)(NSDictionary*))deviceAttributionHandler {
+    if (isInitialized) {
+        NSLog(@"Singular Warning: setDeviceAttributionHandler should be called before init");
+    }
+
+    deviceAttributionCallback = deviceAttributionHandler;
 }
 
 @end
