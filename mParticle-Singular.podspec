@@ -11,10 +11,10 @@ Pod::Spec.new do |s|
     s.source           = { :git => "https://github.com/mparticle-integrations/mparticle-apple-integration-Singular.git", :tag => "v" + s.version.to_s }
     s.social_media_url = "https://twitter.com/mparticle"
 
-	  s.static_framework = true
-    s.ios.deployment_target = "9.0"
+	s.static_framework = true
+    s.ios.deployment_target = "12.0"
     s.ios.source_files      = 'Sources/mParticle-Singular/**/*.{h,m,mm}'
     s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 8.0'
-    s.ios.dependency 'Singular-SDK', '~> 12.0'
+    s.ios.dependency 'Singular-SDK', '~> 12.4'
 
 end
