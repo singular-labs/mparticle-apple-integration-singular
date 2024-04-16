@@ -1,3 +1,10 @@
+# [8.4.0](https://github.com/mparticle-integrations/mparticle-apple-integration-singular/compare/v8.3.0...v8.4.0) (2024-04-16)
+
+
+### Features
+
+* Add privacy manifest ([#20](https://github.com/mparticle-integrations/mparticle-apple-integration-singular/issues/20)) ([6df3e2e](https://github.com/mparticle-integrations/mparticle-apple-integration-singular/commit/6df3e2e487d137ef51a295f9b0fe08490d259763))
+
 # [8.3.0](https://github.com/mparticle-integrations/mparticle-apple-integration-singular/compare/v8.2.0...v8.3.0) (2024-02-23)
 
 
